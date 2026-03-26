@@ -38,8 +38,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 .m-opt:hover{border-color:#b0b0b0}
 .m-opt.picked{border-color:#4361ee;background:#f0f4ff}
 
-.micro-reward{font-size:13px;color:#1D9E75;margin-top:10px;min-height:20px;font-weight:500;opacity:0;transition:opacity .3s}
-.micro-reward.show{opacity:1}
+.micro-reward{margin-top:16px;padding:14px 16px;background:#E1F5EE;border-radius:12px;font-size:14px;color:#085041;font-weight:500;opacity:0;transform:translateY(8px);transition:all .3s;display:flex;align-items:flex-start;gap:10px;line-height:1.4}
+.micro-reward.show{opacity:1;transform:translateY(0)}
+.micro-reward .rw-icon{font-size:20px;flex-shrink:0}
+.rw-next{width:100%;margin-top:12px;padding:14px;border-radius:12px;border:none;background:#4361ee;color:#fff;font-size:16px;font-weight:600;cursor:pointer;opacity:0;pointer-events:none;transition:opacity .3s}
+.rw-next.show{opacity:1;pointer-events:auto}
 
 .btn{display:inline-block;padding:14px 32px;border-radius:12px;font-size:16px;font-weight:600;cursor:pointer;transition:all .2s;border:none;text-align:center;min-height:48px}
 .btn-primary{background:#4361ee;color:#fff}
@@ -135,7 +138,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
       <div class="opt" data-value="8-15" data-mid="11" data-reward="Серьёзная практика. Вопрос — хватает ли ресурса">8–15 клиентов</div>
       <div class="opt" data-value="16+" data-mid="20" data-reward="Агентский масштаб. Без системы дальше сложно">16+ клиентов</div>
     </div>
-    <div class="micro-reward" id="rw-clients"></div>
+    <div class="micro-reward" id="rw-clients"><span class="rw-icon">👥</span><span class="rw-text"></span></div>
+    <button class="rw-next" id="rwnext-clients" onclick="next()">Далее</button>
     <div class="back-link" onclick="prev()">Назад</div>
   </div>
 </div>
@@ -151,7 +155,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
       <div class="opt" data-value="40-80" data-mid="60" data-reward="Выше среднего. Клиенты ценят экспертизу">40–80 тыс</div>
       <div class="opt" data-value="80+" data-mid="100" data-reward="Премиум-сегмент. Каждый клиент на вес золота">80+ тыс</div>
     </div>
-    <div class="micro-reward" id="rw-avg_check"></div>
+    <div class="micro-reward" id="rw-avg_check"><span class="rw-icon">💰</span><span class="rw-text"></span></div>
+    <button class="rw-next" id="rwnext-avg_check" onclick="next()">Далее</button>
     <div class="back-link" onclick="prev()">Назад</div>
   </div>
 </div>
@@ -166,7 +171,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
       <div class="opt" data-value="20-40" data-mid="30" data-reward="Высокая нагрузка — есть потенциал для оптимизации">20–40 часов</div>
       <div class="opt" data-value="40+" data-mid="45" data-reward="Максимальная загрузка. Автоматизация критична">40+ часов</div>
     </div>
-    <div class="micro-reward" id="rw-hours"></div>
+    <div class="micro-reward" id="rw-hours"><span class="rw-icon">⏱️</span><span class="rw-text"></span></div>
+    <button class="rw-next" id="rwnext-hours" onclick="next()">Далее</button>
     <div class="back-link" onclick="prev()">Назад</div>
   </div>
 </div>
@@ -180,7 +186,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
       <div class="opt" data-value="hourly" data-reward="Гибкость, но доход привязан к времени">Почасовая оплата</div>
       <div class="opt" data-value="mix" data-reward="Гибридная модель — баланс стабильности и роста">Микс (абонентка + проектные)</div>
     </div>
-    <div class="micro-reward" id="rw-revenue"></div>
+    <div class="micro-reward" id="rw-revenue"><span class="rw-icon">📊</span><span class="rw-text"></span></div>
+    <button class="rw-next" id="rwnext-revenue" onclick="next()">Далее</button>
     <div class="back-link" onclick="prev()">Назад</div>
   </div>
 </div>
@@ -222,6 +229,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 <!-- Insight A: Модель практики -->
 <div class="screen" data-step="7" id="s-insight-a">
   <div class="q-screen">
+    <div class="q-title">📋 Ваша модель практики</div>
+    <div class="q-hint">На основе ваших ответов мы рассчитали ключевые показатели — доход, стоимость часа и загрузку. Это основа для сценариев роста.</div>
     <div id="insight-a"></div>
     <div class="nav-buttons">
       <button class="btn btn-secondary" onclick="prev()">Назад</button>
@@ -240,7 +249,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
       <div class="opt" data-value="quarterly" data-reward="Это главный тормоз роста для большинства практик">Раз в квартал или реже</div>
       <div class="opt" data-value="none" data-reward="Без входящих расти крайне сложно">Не приходят — ищу сам</div>
     </div>
-    <div class="micro-reward" id="rw-leads"></div>
+    <div class="micro-reward" id="rw-leads"><span class="rw-icon">📥</span><span class="rw-text"></span></div>
+    <button class="rw-next" id="rwnext-leads" onclick="next()">Далее</button>
     <div class="back-link" onclick="prev()">Назад</div>
   </div>
 </div>
@@ -255,7 +265,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
       <div class="opt" data-value="no" data-reward="Потолок достигнут — нужна оптимизация или делегирование">Нет, некуда</div>
       <div class="opt" data-value="swap" data-reward="Ротация клиентов — признак нехватки ёмкости">Возьму, если откажусь от кого-то</div>
     </div>
-    <div class="micro-reward" id="rw-capacity"></div>
+    <div class="micro-reward" id="rw-capacity"><span class="rw-icon">🔋</span><span class="rw-text"></span></div>
+    <button class="rw-next" id="rwnext-capacity" onclick="next()">Далее</button>
     <div class="back-link" onclick="prev()">Назад</div>
   </div>
 </div>
@@ -269,7 +280,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
       <div class="opt" data-value="adapt" data-reward="Каждый раз заново — это замедляет рост">Есть, но адаптирую под клиента</div>
       <div class="opt" data-value="individual" data-reward="Без пакетов каждая продажа — переговоры с нуля">Нет, обсуждаю индивидуально</div>
     </div>
-    <div class="micro-reward" id="rw-product"></div>
+    <div class="micro-reward" id="rw-product"><span class="rw-icon">📦</span><span class="rw-text"></span></div>
+    <button class="rw-next" id="rwnext-product" onclick="next()">Далее</button>
     <div class="back-link" onclick="prev()">Назад</div>
   </div>
 </div>
@@ -283,7 +295,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
       <div class="opt" data-value="partial" data-reward="Начало есть — нужно углублять">Частично, но основное сам</div>
       <div class="opt" data-value="solo" data-reward="Потолок = ваше время. Это ограничение №1">Нет, делаю всё сам</div>
     </div>
-    <div class="micro-reward" id="rw-delegation"></div>
+    <div class="micro-reward" id="rw-delegation"><span class="rw-icon">🤝</span><span class="rw-text"></span></div>
+    <button class="rw-next" id="rwnext-delegation" onclick="next()">Далее</button>
     <div class="back-link" onclick="prev()">Назад</div>
   </div>
 </div>
@@ -297,7 +310,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
       <div class="opt" data-value="afraid" data-reward="Страх потери клиента — самая частая причина низкого дохода">Хотел, но побоялся</div>
       <div class="opt" data-value="no" data-reward="Ваша экспертиза выросла, а чек — нет">Нет, не думал</div>
     </div>
-    <div class="micro-reward" id="rw-pricing"></div>
+    <div class="micro-reward" id="rw-pricing"><span class="rw-icon">💎</span><span class="rw-text"></span></div>
+    <button class="rw-next" id="rwnext-pricing" onclick="next()">Далее</button>
     <div class="back-link" onclick="prev()">Назад</div>
   </div>
 </div>
@@ -305,6 +319,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 <!-- Insight B: Ограничения -->
 <div class="screen" data-step="13" id="s-insight-b">
   <div class="q-screen">
+    <div class="q-title">🔍 Что сдерживает рост</div>
+    <div class="q-hint">Мы оценили 5 ключевых зон вашей практики. Вот где напряжение — и главный рычаг, который даст наибольший эффект.</div>
     <div id="insight-b"></div>
     <div class="nav-buttons">
       <button class="btn btn-secondary" onclick="prev()">Назад</button>
@@ -324,7 +340,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
       <div class="opt" data-value="400-700" data-mid="550" data-reward="Масштабирование — нужна другая модель">400–700 тыс</div>
       <div class="opt" data-value="700+" data-mid="900" data-reward="Трансформация — это уже построение бизнеса">700+ тыс</div>
     </div>
-    <div class="micro-reward" id="rw-target"></div>
+    <div class="micro-reward" id="rw-target"><span class="rw-icon">🎯</span><span class="rw-text"></span></div>
+    <button class="rw-next" id="rwnext-target" onclick="next()">Далее</button>
     <div class="back-link" onclick="prev()">Назад</div>
   </div>
 </div>
@@ -338,7 +355,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
       <div class="opt" data-value="6" data-reward="Оптимальный горизонт для системных изменений">6 месяцев</div>
       <div class="opt" data-value="12" data-reward="Достаточно для глубокой перестройки модели">12 месяцев</div>
     </div>
-    <div class="micro-reward" id="rw-timeline"></div>
+    <div class="micro-reward" id="rw-timeline"><span class="rw-icon">📅</span><span class="rw-text"></span></div>
+    <button class="rw-next" id="rwnext-timeline" onclick="next()">Далее</button>
     <div class="back-link" onclick="prev()">Назад</div>
   </div>
 </div>
@@ -353,7 +371,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
       <div class="opt" data-value="team" data-reward="Команда = масштаб. Но нужна система">Построить команду</div>
       <div class="opt" data-value="products" data-reward="Продукты масштабируются без линейного роста нагрузки">Новые услуги и продукты</div>
     </div>
-    <div class="micro-reward" id="rw-intent"></div>
+    <div class="micro-reward" id="rw-intent"><span class="rw-icon">🚀</span><span class="rw-text"></span></div>
+    <button class="rw-next" id="rwnext-intent" onclick="next()">Далее</button>
     <div class="back-link" onclick="prev()">Назад</div>
   </div>
 </div>
@@ -361,6 +380,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 <!-- Insight C: Траектория -->
 <div class="screen" data-step="17" id="s-insight-c">
   <div class="q-screen">
+    <div class="q-title">🎯 Ваша траектория роста</div>
+    <div class="q-hint">Сравнили вашу текущую точку с целью. Вот что нужно, чтобы преодолеть разрыв — и насколько это реалистично.</div>
     <div id="insight-c"></div>
     <div class="nav-buttons">
       <button class="btn btn-secondary" onclick="prev()">Назад</button>
@@ -481,15 +502,14 @@ document.querySelectorAll('.opts').forEach(group => {
       D[field] = opt.dataset.value;
       if (opt.dataset.mid) D[field + '_mid'] = parseFloat(opt.dataset.mid);
 
-      // Show micro-reward
+      // Show micro-reward + next button
       const rw = document.getElementById('rw-' + field);
       if (rw && opt.dataset.reward) {
-        rw.textContent = opt.dataset.reward;
+        rw.querySelector('.rw-text').textContent = opt.dataset.reward;
         rw.classList.add('show');
       }
-
-      // Auto-advance after 800ms
-      setTimeout(next, 1500);
+      const rwBtn = document.getElementById('rwnext-' + field);
+      if (rwBtn) rwBtn.classList.add('show');
     });
   });
 });
