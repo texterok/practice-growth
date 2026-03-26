@@ -13,14 +13,12 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-
 .screen.active { display: block; }
 @keyframes fadeIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
 
-/* Header */
 .screen-header { margin-bottom: 32px; }
 .screen-header h1 { font-size: 28px; font-weight: 700; line-height: 1.3; margin-bottom: 12px; }
 .screen-header h2 { font-size: 22px; font-weight: 700; line-height: 1.3; margin-bottom: 8px; }
 .screen-header p { font-size: 16px; color: #555; }
 .step-indicator { font-size: 13px; color: #999; margin-bottom: 8px; letter-spacing: 0.5px; }
 
-/* Forms */
 .field { margin-bottom: 24px; }
 .field label { display: block; font-weight: 600; font-size: 15px; margin-bottom: 8px; }
 .field .hint { font-size: 13px; color: #888; margin-bottom: 6px; }
@@ -49,7 +47,6 @@ input[type="number"]:focus { border-color: #4361ee; outline: none; }
 .multi-option:hover { border-color: #b0b0b0; }
 .multi-option.selected { border-color: #4361ee; background: #f0f4ff; }
 
-/* Buttons */
 .btn {
   display: inline-block; padding: 14px 32px; border-radius: 10px; font-size: 16px;
   font-weight: 600; cursor: pointer; transition: all 0.2s; border: none; text-align: center;
@@ -62,7 +59,6 @@ input[type="number"]:focus { border-color: #4361ee; outline: none; }
 .nav-buttons { display: flex; gap: 12px; margin-top: 32px; }
 .nav-buttons .btn { flex: 1; }
 
-/* Insight cards (промежуточные выводы) */
 .insight-block { background: #f0f4ff; border-radius: 14px; padding: 24px; margin: 24px 0; border-left: 4px solid #4361ee; }
 .insight-block h3 { font-size: 17px; font-weight: 700; margin-bottom: 12px; color: #4361ee; }
 .insight-block p { font-size: 15px; color: #333; }
@@ -75,7 +71,6 @@ input[type="number"]:focus { border-color: #4361ee; outline: none; }
 .metric-card .value { font-size: 24px; font-weight: 700; color: #4361ee; }
 .metric-card .label { font-size: 12px; color: #888; margin-top: 4px; }
 
-/* Constraint bars */
 .constraint-bar { margin-bottom: 12px; }
 .constraint-bar .bar-label { display: flex; justify-content: space-between; font-size: 14px; margin-bottom: 4px; }
 .constraint-bar .bar-label .name { font-weight: 600; }
@@ -85,14 +80,12 @@ input[type="number"]:focus { border-color: #4361ee; outline: none; }
 .bar-warn { background: #f59e0b; }
 .bar-crit { background: #ef4444; }
 
-/* Scenarios table */
 .scenarios-table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 14px; }
 .scenarios-table th { background: #f0f4ff; padding: 10px 8px; text-align: left; font-weight: 600; font-size: 13px; }
 .scenarios-table td { padding: 10px 8px; border-bottom: 1px solid #eee; }
 .scenarios-table tr:last-child td { border-bottom: none; }
 .scenarios-table .highlight { background: #f0f4ff; font-weight: 600; }
 
-/* Roadmap timeline */
 .roadmap { position: relative; padding-left: 32px; margin: 20px 0; }
 .roadmap::before { content: ''; position: absolute; left: 11px; top: 0; bottom: 0; width: 2px; background: #e0e0e0; }
 .roadmap-step { position: relative; margin-bottom: 20px; }
@@ -104,7 +97,6 @@ input[type="number"]:focus { border-color: #4361ee; outline: none; }
 .roadmap-step .step-title { font-weight: 600; font-size: 15px; margin-bottom: 4px; }
 .roadmap-step .step-desc { font-size: 14px; color: #666; }
 
-/* Blur gate */
 .blurred { filter: blur(6px); user-select: none; pointer-events: none; }
 .gate-overlay {
   background: linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.95) 40%, #fff 100%);
@@ -120,17 +112,14 @@ input[type="number"]:focus { border-color: #4361ee; outline: none; }
 }
 .gate-form input:focus { border-color: #4361ee; outline: none; }
 
-/* Landing screen */
 .landing { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 80vh; text-align: center; }
 .landing h1 { font-size: 32px; max-width: 600px; margin-bottom: 16px; }
 .landing p { font-size: 17px; color: #555; max-width: 500px; margin-bottom: 32px; }
 
-/* Risk badges */
 .risk-low { color: #22c55e; font-weight: 600; }
 .risk-mid { color: #f59e0b; font-weight: 600; }
 .risk-high { color: #ef4444; font-weight: 600; }
 
-/* Responsive */
 @media (max-width: 600px) {
   .screen { padding: 24px 16px; }
   .metric-cards { grid-template-columns: 1fr; }
@@ -158,18 +147,15 @@ input[type="number"]:focus { border-color: #4361ee; outline: none; }
       <h2>Текущая модель практики</h2>
       <p>Расскажите о своей практике, чтобы мы могли рассчитать ваши возможности роста</p>
     </div>
-
     <div class="field">
       <label>Сколько клиентов ведёте сейчас?</label>
       <input type="number" id="clients_count" min="1" max="50" placeholder="Например: 5">
     </div>
-
     <div class="field">
       <label>Средний чек за клиента (тыс. руб/мес)</label>
       <div class="hint">Если чеки разные — укажите средний</div>
       <input type="number" id="avg_check" min="5" max="500" step="5" placeholder="Например: 40">
     </div>
-
     <div class="field">
       <label>Сколько часов в месяц уходит на одного клиента?</label>
       <div class="radio-group" data-field="hours_per_client">
@@ -179,7 +165,6 @@ input[type="number"]:focus { border-color: #4361ee; outline: none; }
         <div class="radio-option" data-value="40+"><span>40+ часов</span></div>
       </div>
     </div>
-
     <div class="field">
       <label>Как формируется доход?</label>
       <div class="radio-group" data-field="revenue_model">
@@ -188,7 +173,6 @@ input[type="number"]:focus { border-color: #4361ee; outline: none; }
         <div class="radio-option" data-value="mix"><span>Микс (абонентка + проектные работы)</span></div>
       </div>
     </div>
-
     <div class="field">
       <label>Откуда приходят клиенты?</label>
       <div class="hint">Можно выбрать несколько</div>
@@ -200,7 +184,6 @@ input[type="number"]:focus { border-color: #4361ee; outline: none; }
         <div class="multi-option" data-value="cold">Холодный поиск</div>
       </div>
     </div>
-
     <div class="field">
       <label>Какие инструменты используете для учёта клиентов?</label>
       <div class="hint">Можно выбрать несколько</div>
@@ -212,13 +195,20 @@ input[type="number"]:focus { border-color: #4361ee; outline: none; }
         <div class="multi-option" data-value="custom">Самописные шаблоны</div>
       </div>
     </div>
-
-    <div class="nav-buttons" id="nav-2">
+    <div class="nav-buttons">
       <button class="btn btn-secondary" onclick="goTo(1)">Назад</button>
-      <button class="btn btn-primary" id="btn-2" onclick="submitScreen2()">Далее</button>
+      <button class="btn btn-primary" onclick="submitScreen2()">Далее</button>
     </div>
+  </div>
 
-    <div id="insight-2" class="insight-block" style="display:none;"></div>
+  <!-- Экран 2b: Инсайт по модели -->
+  <div class="screen" id="screen-2b">
+    <div class="step-indicator">Результат шага 1</div>
+    <div id="insight-2"></div>
+    <div class="nav-buttons">
+      <button class="btn btn-secondary" onclick="goTo(2)">Назад</button>
+      <button class="btn btn-primary" onclick="goTo(3)">Продолжить</button>
+    </div>
   </div>
 
   <!-- Экран 3: Ограничения роста -->
@@ -228,7 +218,6 @@ input[type="number"]:focus { border-color: #4361ee; outline: none; }
       <h2>Ограничения роста</h2>
       <p>Определим, что именно сдерживает вашу практику</p>
     </div>
-
     <div class="field">
       <label>Как часто приходят новые запросы от потенциальных клиентов?</label>
       <div class="radio-group" data-field="bottleneck_leads">
@@ -238,7 +227,6 @@ input[type="number"]:focus { border-color: #4361ee; outline: none; }
         <div class="radio-option" data-value="none"><span>Не приходят — ищу сам</span></div>
       </div>
     </div>
-
     <div class="field">
       <label>Если завтра придёт идеальный клиент — сможете взять?</label>
       <div class="radio-group" data-field="bottleneck_capacity">
@@ -248,7 +236,6 @@ input[type="number"]:focus { border-color: #4361ee; outline: none; }
         <div class="radio-option" data-value="swap"><span>Возьму, если откажусь от кого-то</span></div>
       </div>
     </div>
-
     <div class="field">
       <label>Есть ли описанное предложение — пакеты, тарифы, состав работ?</label>
       <div class="radio-group" data-field="bottleneck_product">
@@ -257,7 +244,6 @@ input[type="number"]:focus { border-color: #4361ee; outline: none; }
         <div class="radio-option" data-value="individual"><span>Нет, обсуждаю индивидуально</span></div>
       </div>
     </div>
-
     <div class="field">
       <label>Делегируете ли часть работы?</label>
       <div class="radio-group" data-field="bottleneck_delegation">
@@ -266,7 +252,6 @@ input[type="number"]:focus { border-color: #4361ee; outline: none; }
         <div class="radio-option" data-value="solo"><span>Нет, делаю всё сам</span></div>
       </div>
     </div>
-
     <div class="field">
       <label>Поднимали ли чек за последний год?</label>
       <div class="radio-group" data-field="bottleneck_pricing">
@@ -275,13 +260,20 @@ input[type="number"]:focus { border-color: #4361ee; outline: none; }
         <div class="radio-option" data-value="no"><span>Нет, не думал об этом</span></div>
       </div>
     </div>
-
-    <div class="nav-buttons" id="nav-3">
-      <button class="btn btn-secondary" onclick="goTo(2)">Назад</button>
-      <button class="btn btn-primary" id="btn-3" onclick="submitScreen3()">Далее</button>
+    <div class="nav-buttons">
+      <button class="btn btn-secondary" onclick="goTo('2b')">Назад</button>
+      <button class="btn btn-primary" onclick="submitScreen3()">Далее</button>
     </div>
+  </div>
 
-    <div id="insight-3" class="insight-block" style="display:none;"></div>
+  <!-- Экран 3b: Инсайт по ограничениям -->
+  <div class="screen" id="screen-3b">
+    <div class="step-indicator">Результат шага 2</div>
+    <div id="insight-3"></div>
+    <div class="nav-buttons">
+      <button class="btn btn-secondary" onclick="goTo(3)">Назад</button>
+      <button class="btn btn-primary" onclick="goTo(4)">Продолжить</button>
+    </div>
   </div>
 
   <!-- Экран 4: Цели и траектория -->
@@ -291,12 +283,10 @@ input[type="number"]:focus { border-color: #4361ee; outline: none; }
       <h2>Цели и траектория</h2>
       <p>Куда вы хотите прийти?</p>
     </div>
-
     <div class="field">
       <label>Целевой доход (тыс. руб/мес)</label>
       <input type="number" id="target_income" min="50" max="2000" step="10" placeholder="Например: 300">
     </div>
-
     <div class="field">
       <label>За какой срок хотите достичь цели?</label>
       <div class="radio-group" data-field="target_timeline">
@@ -305,7 +295,6 @@ input[type="number"]:focus { border-color: #4361ee; outline: none; }
         <div class="radio-option" data-value="12"><span>12 месяцев</span></div>
       </div>
     </div>
-
     <div class="field">
       <label>Какой путь роста вам ближе?</label>
       <div class="radio-group" data-field="growth_intent">
@@ -315,7 +304,6 @@ input[type="number"]:focus { border-color: #4361ee; outline: none; }
         <div class="radio-option" data-value="products"><span>Добавить новые услуги и продукты</span></div>
       </div>
     </div>
-
     <div class="field">
       <label>Насколько интересна технологическая опора — инструменты, автоматизация, партнёрства?</label>
       <div class="radio-group" data-field="fintablo_interest">
@@ -324,13 +312,20 @@ input[type="number"]:focus { border-color: #4361ee; outline: none; }
         <div class="radio-option" data-value="low"><span>Не уверен, что мне это нужно</span></div>
       </div>
     </div>
-
-    <div class="nav-buttons" id="nav-4">
-      <button class="btn btn-secondary" onclick="goTo(3)">Назад</button>
-      <button class="btn btn-primary" id="btn-4" onclick="submitScreen4()">Показать результаты</button>
+    <div class="nav-buttons">
+      <button class="btn btn-secondary" onclick="goTo('3b')">Назад</button>
+      <button class="btn btn-primary" onclick="submitScreen4()">Показать результаты</button>
     </div>
+  </div>
 
-    <div id="insight-4" class="insight-block" style="display:none;"></div>
+  <!-- Экран 4b: Инсайт по траектории -->
+  <div class="screen" id="screen-4b">
+    <div class="step-indicator">Результат шага 3</div>
+    <div id="insight-4"></div>
+    <div class="nav-buttons">
+      <button class="btn btn-secondary" onclick="goTo(4)">Назад</button>
+      <button class="btn btn-primary" onclick="showResults()">Смотреть сценарии роста</button>
+    </div>
   </div>
 
   <!-- Экран 5: Сценарии роста -->
@@ -339,29 +334,17 @@ input[type="number"]:focus { border-color: #4361ee; outline: none; }
       <h2>Сценарии роста вашей практики</h2>
       <p>5 сценариев с расчётами на основе ваших данных</p>
     </div>
-
-    <div id="scenarios-summary" class="metric-cards"></div>
-
     <div id="scenarios-table-wrap">
       <table class="scenarios-table" id="scenarios-table">
         <thead>
-          <tr>
-            <th>Сценарий</th>
-            <th>Доход, тыс/мес</th>
-            <th>Клиентов</th>
-            <th>Загрузка</th>
-            <th>Скорость</th>
-            <th>Риск</th>
-          </tr>
+          <tr><th>Сценарий</th><th>Доход, тыс/мес</th><th>Клиентов</th><th>Загрузка</th><th>Скорость</th><th>Риск</th></tr>
         </thead>
         <tbody id="scenarios-tbody"></tbody>
       </table>
     </div>
-
     <div id="scenario-details"></div>
-
     <div class="nav-buttons">
-      <button class="btn btn-secondary" onclick="goTo(4)">Назад</button>
+      <button class="btn btn-secondary" onclick="goTo('4b')">Назад</button>
       <button class="btn btn-primary" onclick="goTo(6)">Карта пути</button>
     </div>
   </div>
@@ -372,9 +355,7 @@ input[type="number"]:focus { border-color: #4361ee; outline: none; }
       <h2>Ваша персональная карта пути</h2>
       <p>Шаги, которые дадут наибольший эффект именно для вашей модели</p>
     </div>
-
     <div id="roadmap-container" class="roadmap"></div>
-
     <div class="nav-buttons">
       <button class="btn btn-secondary" onclick="goTo(5)">Назад</button>
       <button class="btn btn-primary" onclick="goTo(7)">Получить полный план</button>
@@ -386,12 +367,10 @@ input[type="number"]:focus { border-color: #4361ee; outline: none; }
     <div class="screen-header">
       <h2>Ваш план роста готов</h2>
     </div>
-
     <div id="gate-preview">
       <div id="gate-teaser-model" class="insight-block"></div>
       <div id="gate-teaser-constraints"></div>
       <div id="gate-teaser-gap" class="insight-block"></div>
-
       <h3 style="margin: 24px 0 12px;">Сценарии роста</h3>
       <div id="gate-blurred-table" class="blurred">
         <table class="scenarios-table" id="gate-table">
@@ -399,14 +378,12 @@ input[type="number"]:focus { border-color: #4361ee; outline: none; }
           <tbody id="gate-tbody"></tbody>
         </table>
       </div>
-
       <h3 style="margin: 24px 0 12px;">Карта пути</h3>
       <div id="gate-roadmap-preview"></div>
       <div id="gate-roadmap-blurred" class="blurred">
         <div class="roadmap" id="gate-roadmap-rest"></div>
       </div>
     </div>
-
     <div class="gate-overlay" id="gate-overlay">
       <h3>Откройте полную версию результата</h3>
       <p>Сравнение сценариев с расчётами, полная карта пути и персональные рекомендации</p>
@@ -416,7 +393,6 @@ input[type="number"]:focus { border-color: #4361ee; outline: none; }
         <button class="btn btn-primary" style="width:100%;" onclick="submitGate()">Получить полный план</button>
       </div>
     </div>
-
     <div id="full-results" style="display:none;">
       <div id="full-scenarios"></div>
       <div id="full-roadmap"></div>
@@ -435,14 +411,12 @@ const D = {};
 const HOURS_MID = { '5-10': 7.5, '10-20': 15, '20-40': 30, '40+': 45 };
 const CAP = 160;
 
-// --- Navigation ---
 function goTo(n) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById('screen-' + n).classList.add('active');
   window.scrollTo(0, 0);
 }
 
-// --- Radio/Multi-select handlers ---
 document.querySelectorAll('.radio-group').forEach(group => {
   group.querySelectorAll('.radio-option').forEach(opt => {
     opt.addEventListener('click', () => {
@@ -451,7 +425,6 @@ document.querySelectorAll('.radio-group').forEach(group => {
     });
   });
 });
-
 document.querySelectorAll('.multi-select-group').forEach(group => {
   group.querySelectorAll('.multi-option').forEach(opt => {
     opt.addEventListener('click', () => opt.classList.toggle('selected'));
@@ -462,20 +435,13 @@ function getRadio(field) {
   const el = document.querySelector(`[data-field="${field}"] .selected`);
   return el ? el.dataset.value : null;
 }
-
 function getMulti(field) {
   return Array.from(document.querySelectorAll(`[data-field="${field}"] .selected`)).map(e => e.dataset.value);
 }
+function getNum(id) { return parseFloat(document.getElementById(id).value) || 0; }
+function fmt(n) { return Math.round(n).toLocaleString('ru-RU'); }
 
-function getNum(id) {
-  return parseFloat(document.getElementById(id).value) || 0;
-}
-
-function fmt(n) {
-  return Math.round(n).toLocaleString('ru-RU');
-}
-
-// --- Screen 2: Текущая модель ---
+// --- Screen 2 ---
 function submitScreen2() {
   D.clients = getNum('clients_count');
   D.avgCheck = getNum('avg_check');
@@ -484,10 +450,7 @@ function submitScreen2() {
   D.leadSources = getMulti('lead_source');
   D.tools = getMulti('tools');
 
-  if (!D.clients || !D.avgCheck || !D.hoursKey || !D.revenueModel) {
-    alert('Заполните все поля');
-    return;
-  }
+  if (!D.clients || !D.avgCheck || !D.hoursKey || !D.revenueModel) { alert('Заполните все обязательные поля'); return; }
 
   D.H = HOURS_MID[D.hoursKey];
   D.totalHours = D.clients * D.H;
@@ -495,43 +458,38 @@ function submitScreen2() {
   D.hourlyRate = D.totalHours > 0 ? D.monthlyIncome / D.totalHours : 0;
   D.capacityUsed = D.totalHours / CAP * 100;
 
-  // Тип модели
   let scale;
   if (D.clients <= 3) scale = 'Solo-практика';
   else if (D.clients <= 7) scale = 'Микропрактика';
   else if (D.clients <= 15) scale = 'Практика';
   else scale = 'Агентство';
 
-  const revenueLabels = { fixed: 'фиксированная абонентка', hourly: 'почасовая оплата', mix: 'гибридная модель' };
+  const rl = { fixed: 'фиксированная абонентка', hourly: 'почасовая оплата', mix: 'гибридная модель' };
   D.modelLabel = scale;
-  D.revenueLabel = revenueLabels[D.revenueModel];
+  D.revenueLabel = rl[D.revenueModel];
 
-  const insightTexts = {
+  const texts = {
     'Solo-практика': `Вы работаете с небольшим числом клиентов (${D.clients}). Ваша опора — глубина работы и лояльность клиентов. Потолок — ваше время: при ${D.H}ч на клиента вы используете ${Math.round(D.capacityUsed)}% рабочей ёмкости.`,
-    'Микропрактика': `Практика с ${D.clients} клиентами на ${D.revenueLabel}. Опора — стабильный поток дохода. Потолок — операционная нагрузка: ${Math.round(D.totalHours)}ч/мес уже ${D.capacityUsed > 80 ? 'близко к пределу' : 'оставляет пространство для роста'}.`,
+    'Микропрактика': `Практика с ${D.clients} клиентами на ${D.revenueLabel}. Опора — стабильный поток дохода. Потолок — операционная нагрузка: ${Math.round(D.totalHours)}ч/мес ${D.capacityUsed > 80 ? 'близко к пределу' : 'оставляет пространство для роста'}.`,
     'Практика': `Развитая практика с ${D.clients} клиентами. Опора — масштаб и опыт. Потолок — ${Math.round(D.totalHours)}ч/мес нагрузки ${D.capacityUsed > 90 ? 'на пределе' : 'требует системного управления'}.`,
     'Агентство': `Агентская модель с ${D.clients} клиентами. На ${D.revenueLabel} это серьёзный объём. Без команды и автоматизации рост ограничен физически.`
   };
 
-  const el = document.getElementById('insight-2');
-  el.style.display = 'block';
-  el.innerHTML = `
-    <h3>${scale} · ${revenueLabels[D.revenueModel]}</h3>
-    <div class="metric-cards">
-      <div class="metric-card"><div class="value">${fmt(D.monthlyIncome)} &#8381;</div><div class="label">доход / мес</div></div>
-      <div class="metric-card"><div class="value">${fmt(D.hourlyRate)} &#8381;</div><div class="label">стоимость часа</div></div>
-      <div class="metric-card"><div class="value">${Math.round(D.capacityUsed)}%</div><div class="label">загрузка</div></div>
-    </div>
-    <p>${insightTexts[scale]}</p>
-  `;
+  document.getElementById('insight-2').innerHTML = `
+    <div class="insight-block">
+      <h3>${scale} · ${rl[D.revenueModel]}</h3>
+      <div class="metric-cards">
+        <div class="metric-card"><div class="value">${fmt(D.monthlyIncome)} &#8381;</div><div class="label">доход / мес</div></div>
+        <div class="metric-card"><div class="value">${fmt(D.hourlyRate)} &#8381;</div><div class="label">стоимость часа</div></div>
+        <div class="metric-card"><div class="value">${Math.round(D.capacityUsed)}%</div><div class="label">загрузка</div></div>
+      </div>
+      <p>${texts[scale]}</p>
+    </div>`;
 
-  el.scrollIntoView({ behavior: 'smooth' });
-  const btn = document.getElementById('btn-2');
-  btn.textContent = 'Продолжить';
-  btn.onclick = () => { btn.textContent = 'Далее'; btn.onclick = submitScreen2; goTo(3); };
+  goTo('2b');
 }
 
-// --- Screen 3: Ограничения ---
+// --- Screen 3 ---
 function submitScreen3() {
   D.leads = getRadio('bottleneck_leads');
   D.capacity = getRadio('bottleneck_capacity');
@@ -539,12 +497,9 @@ function submitScreen3() {
   D.delegation = getRadio('bottleneck_delegation');
   D.pricing = getRadio('bottleneck_pricing');
 
-  if (!D.leads || !D.capacity || !D.product || !D.delegation || !D.pricing) {
-    alert('Ответьте на все вопросы');
-    return;
-  }
+  if (!D.leads || !D.capacity || !D.product || !D.delegation || !D.pricing) { alert('Ответьте на все вопросы'); return; }
 
-  const SCORES = {
+  const SC = {
     leads: { weekly: 1, monthly: 2, quarterly: 3, none: 3 },
     capacity: { yes: 1, tight: 2, no: 3, swap: 3 },
     product: { packages: 1, adapt: 2, individual: 3 },
@@ -553,140 +508,116 @@ function submitScreen3() {
   };
 
   D.constraints = {
-    leads: SCORES.leads[D.leads],
-    capacity: SCORES.capacity[D.capacity],
-    product: SCORES.product[D.product],
-    delegation: SCORES.delegation[D.delegation],
-    pricing: SCORES.pricing[D.pricing]
+    leads: SC.leads[D.leads], capacity: SC.capacity[D.capacity],
+    product: SC.product[D.product], delegation: SC.delegation[D.delegation],
+    pricing: SC.pricing[D.pricing]
   };
 
-  const labels = {
-    leads: 'Поток клиентов',
-    capacity: 'Ёмкость',
-    product: 'Упаковка услуг',
-    delegation: 'Масштабируемость',
-    pricing: 'Экономика'
-  };
+  const labels = { leads: 'Поток клиентов', capacity: 'Ёмкость', product: 'Упаковка услуг', delegation: 'Масштабируемость', pricing: 'Экономика' };
+  const stLbl = { 1: 'В порядке', 2: 'Напряжение', 3: 'Критично' };
+  const bCls = { 1: 'bar-ok', 2: 'bar-warn', 3: 'bar-crit' };
 
-  const statusLabels = { 1: 'В порядке', 2: 'Напряжение', 3: 'Критично' };
-  const barClass = { 1: 'bar-ok', 2: 'bar-warn', 3: 'bar-crit' };
-
-  // Главное ограничение
   const order = ['leads', 'capacity', 'product', 'delegation', 'pricing'];
   let primary = order[0];
-  for (const k of order) {
-    if (D.constraints[k] > D.constraints[primary]) primary = k;
-  }
+  for (const k of order) { if (D.constraints[k] > D.constraints[primary]) primary = k; }
   D.primaryConstraint = primary;
 
-  const constraintTexts = {
-    leads: `Главное ограничение — поток клиентов. При текущей частоте входящих ваша практика растёт медленнее, чем могла бы. Даже если вы готовы взять больше — некого брать.`,
+  const cTexts = {
+    leads: 'Главное ограничение — поток клиентов. При текущей частоте входящих ваша практика растёт медленнее, чем могла бы. Даже если вы готовы взять больше — некого брать.',
     capacity: `Главное ограничение — загрузка. Вы работаете на ${Math.round(D.capacityUsed)}% мощности. Новый клиент не влезет без потери качества или выгорания.`,
-    product: `Главное ограничение — упаковка. Без чётких пакетов каждый новый клиент — это переговоры с нуля. Это тормозит и продажи, и масштабирование.`,
-    delegation: `Главное ограничение — делегирование. Пока всё на вас, потолок = ваше время. Чтобы расти, нужно отдать часть работы.`,
+    product: 'Главное ограничение — упаковка. Без чётких пакетов каждый новый клиент — это переговоры с нуля. Это тормозит и продажи, и масштабирование.',
+    delegation: 'Главное ограничение — делегирование. Пока всё на вас, потолок = ваше время. Чтобы расти, нужно отдать часть работы.',
     pricing: `Главное ограничение — цена. Стоимость вашего часа (${fmt(D.hourlyRate)} руб) может быть ниже рыночной для вашего уровня экспертизы.`
   };
 
-  let barsHtml = '';
+  let bars = '';
   for (const k of order) {
     const s = D.constraints[k];
-    barsHtml += `<div class="constraint-bar">
-      <div class="bar-label"><span class="name">${labels[k]}</span><span>${statusLabels[s]}</span></div>
-      <div class="bar-track"><div class="bar-fill ${barClass[s]}" style="width:${s * 33}%"></div></div>
+    bars += `<div class="constraint-bar">
+      <div class="bar-label"><span class="name">${labels[k]}</span><span>${stLbl[s]}</span></div>
+      <div class="bar-track"><div class="bar-fill ${bCls[s]}" style="width:${s * 33}%"></div></div>
     </div>`;
   }
 
-  const el = document.getElementById('insight-3');
-  el.style.display = 'block';
-  el.innerHTML = `<h3>Карта ограничений</h3>${barsHtml}<p style="margin-top:16px;">${constraintTexts[primary]}</p>`;
+  document.getElementById('insight-3').innerHTML = `
+    <div class="insight-block"><h3>Карта ограничений</h3>${bars}<p style="margin-top:16px;">${cTexts[primary]}</p></div>`;
 
-  el.scrollIntoView({ behavior: 'smooth' });
-  const btn = document.getElementById('btn-3');
-  btn.textContent = 'Продолжить';
-  btn.onclick = () => { btn.textContent = 'Далее'; btn.onclick = submitScreen3; goTo(4); };
+  goTo('3b');
 }
 
-// --- Screen 4: Цели ---
+// --- Screen 4 ---
 function submitScreen4() {
   D.targetIncome = getNum('target_income');
   D.timeline = getRadio('target_timeline');
   D.growthIntent = getRadio('growth_intent');
   D.fintabloInterest = getRadio('fintablo_interest');
 
-  if (!D.targetIncome || !D.timeline || !D.growthIntent || !D.fintabloInterest) {
-    alert('Заполните все поля');
-    return;
-  }
+  if (!D.targetIncome || !D.timeline || !D.growthIntent || !D.fintabloInterest) { alert('Заполните все поля'); return; }
 
   D.targetRub = D.targetIncome * 1000;
   D.incomeGap = D.targetRub - D.monthlyIncome;
   D.gapMultiplier = D.monthlyIncome > 0 ? D.targetRub / D.monthlyIncome : 99;
   D.timelineMonths = parseInt(D.timeline);
 
-  let trajectory;
-  if (D.gapMultiplier <= 1.3) trajectory = 'optimization';
-  else if (D.gapMultiplier <= 2.0) trajectory = 'growth';
-  else if (D.gapMultiplier <= 3.0) trajectory = 'scaling';
-  else trajectory = 'transformation';
-  D.trajectory = trajectory;
+  let t;
+  if (D.gapMultiplier <= 1.3) t = 'optimization';
+  else if (D.gapMultiplier <= 2.0) t = 'growth';
+  else if (D.gapMultiplier <= 3.0) t = 'scaling';
+  else t = 'transformation';
+  D.trajectory = t;
 
-  const trajectoryTexts = {
+  const tTexts = {
     optimization: `Ваша цель (${D.targetIncome}к) реалистична в рамках текущей модели. Разрыв ${Math.round((D.gapMultiplier - 1) * 100)}% — это оптимизация: поднять чек, упаковать услуги, подрезать неэффективных клиентов.`,
     growth: `Рост в ${D.gapMultiplier.toFixed(1)}x за ${D.timelineMonths} мес требует не просто больше работать, а изменить подход. Нужны новые клиенты, другой чек или делегирование части работы.`,
     scaling: `Цель x${D.gapMultiplier.toFixed(1)} — это смена модели. Текущая практика не вмещает такой рост без команды, автоматизации и системного привлечения клиентов.`,
     transformation: `Разрыв x${D.gapMultiplier.toFixed(1)} — это построение нового бизнеса. Текущая модель для этого не подходит — нужна принципиально другая архитектура.`
   };
+  const tLbl = { optimization: 'Оптимизация', growth: 'Рост', scaling: 'Масштабирование', transformation: 'Трансформация' };
 
-  const trajectoryLabels = { optimization: 'Оптимизация', growth: 'Рост', scaling: 'Масштабирование', transformation: 'Трансформация' };
+  document.getElementById('insight-4').innerHTML = `
+    <div class="insight-block">
+      <h3>Траектория: ${tLbl[t]}</h3>
+      <div class="metric-cards">
+        <div class="metric-card"><div class="value">${fmt(D.monthlyIncome)} &#8381;</div><div class="label">сейчас</div></div>
+        <div class="metric-card"><div class="value">${fmt(D.targetRub)} &#8381;</div><div class="label">цель</div></div>
+        <div class="metric-card"><div class="value">x${D.gapMultiplier.toFixed(1)}</div><div class="label">разрыв</div></div>
+      </div>
+      <p>${tTexts[t]}</p>
+    </div>`;
 
-  const el = document.getElementById('insight-4');
-  el.style.display = 'block';
-  el.innerHTML = `
-    <h3>Траектория: ${trajectoryLabels[trajectory]}</h3>
-    <div class="metric-cards">
-      <div class="metric-card"><div class="value">${fmt(D.monthlyIncome)} &#8381;</div><div class="label">сейчас</div></div>
-      <div class="metric-card"><div class="value">${fmt(D.targetRub)} &#8381;</div><div class="label">цель</div></div>
-      <div class="metric-card"><div class="value">x${D.gapMultiplier.toFixed(1)}</div><div class="label">разрыв</div></div>
-    </div>
-    <p>${trajectoryTexts[trajectory]}</p>
-  `;
+  goTo('4b');
+}
 
-  el.scrollIntoView({ behavior: 'smooth' });
-  const btn = document.getElementById('btn-4');
-  btn.textContent = 'Продолжить';
-  btn.onclick = () => { btn.textContent = 'Показать результаты'; btn.onclick = submitScreen4; buildScenarios(); buildRoadmap(); goTo(5); };
+function showResults() {
+  buildScenarios();
+  buildRoadmap();
+  goTo(5);
 }
 
 // --- Scenarios ---
 function buildScenarios() {
   const C = D.clients, A = D.avgCheck * 1000, H = D.H, T = D.targetRub;
 
-  // S1: Поднять чек
   const s1check = C > 0 ? T / C : 0;
   const s1pct = A > 0 ? (s1check - A) / A * 100 : 0;
   const s1cap = D.capacityUsed;
   const s1risk = s1pct <= 50 ? 'low' : (s1pct <= 100 ? 'mid' : 'high');
   const s1speed = s1pct <= 30 ? 2 : (s1pct <= 60 ? 4 : 8);
-  const s1feasible = s1pct <= 50 ? 'Реалистично' : (s1pct <= 100 ? 'Сложно' : 'Маловероятно');
 
-  // S2: Больше клиентов, -30% нагрузки
   const s2H = H * 0.7;
   const s2max = Math.floor(CAP * 0.85 / s2H);
-  const s2needed = Math.ceil(T / A);
-  const s2clients = Math.min(s2needed, s2max);
+  const s2clients = Math.min(Math.ceil(T / A), s2max);
   const s2income = s2clients * A;
   const s2cap = s2clients * s2H / CAP * 100;
   const s2risk = s2cap <= 80 ? 'low' : (s2cap <= 100 ? 'mid' : 'high');
   const s2speed = (s2clients - C) <= 3 ? 3 : ((s2clients - C) <= 6 ? 6 : 10);
 
-  // S3: Упаковка + маркетинг
   const s3check = A * 1.2;
   const s3_6m = Math.min(C + 2 * 6 - Math.floor(6 / 3), Math.floor(CAP * 0.85 / H));
   const s3income6 = s3_6m * s3check;
   const s3cap6 = s3_6m * H / CAP * 100;
   const s3risk = s3cap6 <= 80 ? 'low' : (s3cap6 <= 100 ? 'mid' : 'high');
 
-  // S4: Свои инструменты
   const s4H = H * 0.8;
   const s4check = A * 1.15;
   const s4max = Math.floor(CAP * 0.85 / s4H);
@@ -696,43 +627,33 @@ function buildScenarios() {
   const s4risk = s4cap <= 80 ? 'low' : (s4cap <= 100 ? 'mid' : 'high');
   const s4speed = 2 + ((s4clients - C) <= 3 ? 3 : 6);
 
-  // S5: Финтабло
   const s5H = H * 0.6;
   const s5check = A * 1.25;
   const s5partner = 1000;
   const s5max = Math.floor(CAP * 0.85 / s5H);
-  const s5_6m = Math.min(C + 1 * 6, s5max);
+  const s5_6m = Math.min(C + 6, s5max);
   const s5income6 = s5_6m * s5check + s5_6m * s5partner;
   const s5cap6 = s5_6m * s5H / CAP * 100;
   const s5risk = s5cap6 <= 80 ? 'low' : (s5cap6 <= 100 ? 'mid' : 'high');
 
-  const riskLabel = { low: 'Низкий', mid: 'Средний', high: 'Высокий' };
-  const riskClass = { low: 'risk-low', mid: 'risk-mid', high: 'risk-high' };
+  const rLbl = { low: 'Низкий', mid: 'Средний', high: 'Высокий' };
+  const rCls = { low: 'risk-low', mid: 'risk-mid', high: 'risk-high' };
 
   D.scenarios = [
-    { name: 'Поднять чек', income: T / 1000, clients: C, cap: s1cap, speed: `~${s1speed} мес`, risk: s1risk, note: s1feasible },
-    { name: 'Больше клиентов, снизить нагрузку', income: s2income / 1000, clients: s2clients, cap: s2cap, speed: `~${s2speed} мес`, risk: s2risk, note: '' },
-    { name: 'Упаковка + маркетинг', income: s3income6 / 1000, clients: s3_6m, cap: s3cap6, speed: '~6 мес', risk: s3risk, note: 'прогноз на 6 мес' },
-    { name: 'Свои инструменты', income: s4income / 1000, clients: s4clients, cap: s4cap, speed: `~${s4speed} мес`, risk: s4risk, note: '+60ч на старте' },
-    { name: 'Финтабло + партнёрство', income: s5income6 / 1000, clients: s5_6m, cap: s5cap6, speed: '~4 мес', risk: s5risk, note: 'прогноз на 6 мес', highlight: true },
+    { name: 'Поднять чек', income: T / 1000, clients: C, cap: s1cap, speed: `~${s1speed} мес`, risk: s1risk },
+    { name: 'Больше клиентов, снизить нагрузку', income: s2income / 1000, clients: s2clients, cap: s2cap, speed: `~${s2speed} мес`, risk: s2risk },
+    { name: 'Упаковка + маркетинг', income: s3income6 / 1000, clients: s3_6m, cap: s3cap6, speed: '~6 мес', risk: s3risk },
+    { name: 'Свои инструменты', income: s4income / 1000, clients: s4clients, cap: s4cap, speed: `~${s4speed} мес`, risk: s4risk },
+    { name: 'Финтабло + партнёрство', income: s5income6 / 1000, clients: s5_6m, cap: s5cap6, speed: '~4 мес', risk: s5risk, highlight: true },
   ];
 
   let tbody = '';
-  D.scenarios.forEach((s, i) => {
+  D.scenarios.forEach(s => {
     const cls = s.highlight ? ' class="highlight"' : '';
-    tbody += `<tr${cls}>
-      <td>${s.name}</td>
-      <td>${fmt(s.income * 1000)} &#8381;</td>
-      <td>${s.clients}</td>
-      <td>${Math.round(s.cap)}%</td>
-      <td>${s.speed}</td>
-      <td><span class="${riskClass[s.risk]}">${riskLabel[s.risk]}</span></td>
-    </tr>`;
+    tbody += `<tr${cls}><td>${s.name}</td><td>${fmt(s.income * 1000)} &#8381;</td><td>${s.clients}</td><td>${Math.round(s.cap)}%</td><td>${s.speed}</td><td><span class="${rCls[s.risk]}">${rLbl[s.risk]}</span></td></tr>`;
   });
-
   document.getElementById('scenarios-tbody').innerHTML = tbody;
 
-  // Детали сценария 5
   document.getElementById('scenario-details').innerHTML = `
     <div class="insight-block" style="border-left-color: #22c55e; margin-top: 24px;">
       <h3 style="color: #22c55e;">Сценарий с Финтабло — подробнее</h3>
@@ -741,136 +662,89 @@ function buildScenarios() {
         <div class="metric-card"><div class="value">${fmt(s5check)} &#8381;</div><div class="label">чек (+25%)</div></div>
         <div class="metric-card"><div class="value">+${fmt(s5partner)} &#8381;</div><div class="label">партнёрский доход/клиент</div></div>
       </div>
-      <p>Автоматизация отчётности снижает нагрузку на 40%. Ценность для клиента растёт — чек можно поднять на 25%. Партнёрский доход ${fmt(s5partner)} руб/мес за каждого клиента. Дополнительный поток клиентов от партнёрской программы.</p>
-    </div>
-  `;
+      <p>Автоматизация отчётности снижает нагрузку на 40%. Ценность для клиента растёт — чек можно поднять на 25%. Партнёрский доход ${fmt(s5partner)} руб/мес за каждого клиента.</p>
+    </div>`;
 }
 
 // --- Roadmap ---
 function buildRoadmap() {
   const steps = [];
-
-  if (D.hourlyRate < 1500 || D.capacityUsed > 90) {
+  if (D.hourlyRate < 1500 || D.capacityUsed > 90)
     steps.push({ title: 'Аудит клиентской базы', desc: 'Оценить рентабельность каждого клиента. Отказаться от невыгодных, освободить ресурс для роста.' });
-  }
-  if (D.product === 'adapt' || D.product === 'individual') {
+  if (D.product === 'adapt' || D.product === 'individual')
     steps.push({ title: 'Упаковать услуги в пакеты', desc: 'Создать 2–3 пакета с фиксированным составом и ценой. Это ускоряет продажу и снижает время на переговоры.' });
-  }
-  if (D.pricing === 'afraid' || D.pricing === 'no') {
+  if (D.pricing === 'afraid' || D.pricing === 'no')
     steps.push({ title: 'Пересмотреть цены', desc: 'Поднять чек на 20–30% для текущих и новых клиентов. Ваша экспертиза стоит дороже, чем вы думаете.' });
-  }
-  if (D.hoursKey === '20-40' || D.hoursKey === '40+' || !D.tools.includes('fintablo')) {
-    steps.push({ title: 'Автоматизировать отчётность', desc: 'Подключить инструмент автоматизации, сократить часы на клиента на 30–40%. Высвободить время для новых клиентов.' });
-  }
-  if (D.leads === 'quarterly' || D.leads === 'none') {
+  if (D.hoursKey === '20-40' || D.hoursKey === '40+' || !D.tools.includes('fintablo'))
+    steps.push({ title: 'Автоматизировать отчётность', desc: 'Подключить инструмент автоматизации, сократить часы на клиента на 30–40%.' });
+  if (D.leads === 'quarterly' || D.leads === 'none')
     steps.push({ title: 'Наладить поток клиентов', desc: 'Запустить контент-маркетинг или подключиться к партнёрской программе для стабильного притока лидов.' });
-  }
-  if (D.delegation === 'solo' && D.capacityUsed > 70) {
-    steps.push({ title: 'Начать делегировать', desc: 'Нанять ассистента или бухгалтера для рутинных задач. Без делегирования рост ограничен вашим временем.' });
-  }
+  if (D.delegation === 'solo' && D.capacityUsed > 70)
+    steps.push({ title: 'Начать делегировать', desc: 'Нанять ассистента для рутинных задач. Без делегирования рост ограничен вашим временем.' });
   steps.push({ title: 'Подключиться к партнёрской программе Финтабло', desc: 'Получить технологию, экспертную среду, дополнительный канал клиентов и партнёрский доход.' });
 
   D.roadmapSteps = steps;
-
   let html = '';
   steps.forEach((s, i) => {
-    html += `<div class="roadmap-step">
-      <div class="step-dot">${i + 1}</div>
-      <div class="step-title">${s.title}</div>
-      <div class="step-desc">${s.desc}</div>
-    </div>`;
+    html += `<div class="roadmap-step"><div class="step-dot">${i + 1}</div><div class="step-title">${s.title}</div><div class="step-desc">${s.desc}</div></div>`;
   });
-
   document.getElementById('roadmap-container').innerHTML = html;
 }
 
-// --- Gate (Screen 7) ---
+// --- Gate ---
 function buildGate() {
-  // Тизер: модель
   document.getElementById('gate-teaser-model').innerHTML = `
     <h3>${D.modelLabel} · ${D.revenueLabel}</h3>
     <div class="metric-cards">
       <div class="metric-card"><div class="value">${fmt(D.monthlyIncome)} &#8381;</div><div class="label">доход / мес</div></div>
       <div class="metric-card"><div class="value">${Math.round(D.capacityUsed)}%</div><div class="label">загрузка</div></div>
-    </div>
-  `;
+    </div>`;
 
-  // Тизер: ограничения (bars)
-  const labels = { leads: 'Поток клиентов', capacity: 'Ёмкость', product: 'Упаковка', delegation: 'Масштабируемость', pricing: 'Экономика' };
-  const barClass = { 1: 'bar-ok', 2: 'bar-warn', 3: 'bar-crit' };
-  let barsHtml = '';
+  const lbl = { leads: 'Поток клиентов', capacity: 'Ёмкость', product: 'Упаковка', delegation: 'Масштабируемость', pricing: 'Экономика' };
+  const bC = { 1: 'bar-ok', 2: 'bar-warn', 3: 'bar-crit' };
+  let bars = '';
   for (const k of ['leads', 'capacity', 'product', 'delegation', 'pricing']) {
     const s = D.constraints[k];
-    barsHtml += `<div class="constraint-bar">
-      <div class="bar-label"><span class="name">${labels[k]}</span></div>
-      <div class="bar-track"><div class="bar-fill ${barClass[s]}" style="width:${s * 33}%"></div></div>
-    </div>`;
+    bars += `<div class="constraint-bar"><div class="bar-label"><span class="name">${lbl[k]}</span></div><div class="bar-track"><div class="bar-fill ${bC[s]}" style="width:${s * 33}%"></div></div></div>`;
   }
-  document.getElementById('gate-teaser-constraints').innerHTML = barsHtml;
+  document.getElementById('gate-teaser-constraints').innerHTML = bars;
 
-  // Тизер: разрыв
   document.getElementById('gate-teaser-gap').innerHTML = `
     <h3>Разрыв: x${D.gapMultiplier.toFixed(1)}</h3>
-    <p>${fmt(D.monthlyIncome)} &#8381; сейчас → ${fmt(D.targetRub)} &#8381; цель</p>
-  `;
+    <p>${fmt(D.monthlyIncome)} &#8381; сейчас → ${fmt(D.targetRub)} &#8381; цель</p>`;
 
-  // Blurred таблица
   let tbody = '';
   D.scenarios.forEach(s => {
     tbody += `<tr><td>${s.name}</td><td>${fmt(s.income * 1000)} &#8381;</td><td>${s.clients}</td><td>${Math.round(s.cap)}%</td><td>${s.speed}</td></tr>`;
   });
   document.getElementById('gate-tbody').innerHTML = tbody;
 
-  // Roadmap: 1 шаг открыт, остальные blurred
   if (D.roadmapSteps.length > 0) {
     document.getElementById('gate-roadmap-preview').innerHTML = `
-      <div class="roadmap"><div class="roadmap-step">
-        <div class="step-dot">1</div>
-        <div class="step-title">${D.roadmapSteps[0].title}</div>
-        <div class="step-desc">${D.roadmapSteps[0].desc}</div>
-      </div></div>`;
+      <div class="roadmap"><div class="roadmap-step"><div class="step-dot">1</div><div class="step-title">${D.roadmapSteps[0].title}</div><div class="step-desc">${D.roadmapSteps[0].desc}</div></div></div>`;
   }
-
-  let restHtml = '';
+  let rest = '';
   D.roadmapSteps.slice(1).forEach((s, i) => {
-    restHtml += `<div class="roadmap-step">
-      <div class="step-dot">${i + 2}</div>
-      <div class="step-title">${s.title}</div>
-      <div class="step-desc">${s.desc}</div>
-    </div>`;
+    rest += `<div class="roadmap-step"><div class="step-dot">${i + 2}</div><div class="step-title">${s.title}</div><div class="step-desc">${s.desc}</div></div>`;
   });
-  document.getElementById('gate-roadmap-rest').innerHTML = restHtml;
+  document.getElementById('gate-roadmap-rest').innerHTML = rest;
 }
 
-// Override goTo for screen 7 to build gate
-const origGoTo = goTo;
-goTo = function(n) {
-  if (n === 7) buildGate();
-  origGoTo(n);
-};
+const _goTo = goTo;
+goTo = function(n) { if (n === 7) buildGate(); _goTo(n); };
 
-// --- Submit gate ---
 function submitGate() {
   const name = document.getElementById('gate-name').value.trim();
   const contact = document.getElementById('gate-contact').value.trim();
-  if (!name || !contact) {
-    alert('Укажите имя и контакт');
-    return;
-  }
+  if (!name || !contact) { alert('Укажите имя и контакт'); return; }
 
-  // Send to external service (placeholder)
-  // fetch('https://formspree.io/f/YOUR_ID', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name, contact, ...D }) });
-
-  // Reveal full results
   document.getElementById('gate-blurred-table').classList.remove('blurred');
   document.getElementById('gate-roadmap-blurred').classList.remove('blurred');
   document.getElementById('gate-overlay').style.display = 'none';
 
-  // Show full results section
   const fullEl = document.getElementById('full-results');
   fullEl.style.display = 'block';
 
-  // Full scenarios
   let tbody = '';
   D.scenarios.forEach(s => {
     const cls = s.highlight ? ' class="highlight"' : '';
@@ -880,21 +754,15 @@ function submitGate() {
     <h3 style="margin-bottom:12px;">Все сценарии роста</h3>
     <table class="scenarios-table"><thead><tr><th>Сценарий</th><th>Доход</th><th>Клиентов</th><th>Загрузка</th><th>Скорость</th></tr></thead><tbody>${tbody}</tbody></table>
     <div class="insight-block" style="border-left-color: #22c55e; margin-top: 16px;">
-      <h3 style="color: #22c55e;">Рекомендуемый сценарий: Финтабло + партнёрство</h3>
-      <p>Автоматизация снижает нагрузку на 40%, чек растёт на 25%, партнёрский доход +1 000 руб/мес за клиента. Это самый быстрый путь к вашей цели ${fmt(D.targetRub)} руб/мес.</p>
-    </div>
-  `;
-
-  // Full roadmap
-  let roadHtml = '';
-  D.roadmapSteps.forEach((s, i) => {
-    roadHtml += `<div class="roadmap-step">
-      <div class="step-dot">${i + 1}</div>
-      <div class="step-title">${s.title}</div>
-      <div class="step-desc">${s.desc}</div>
+      <h3 style="color: #22c55e;">Рекомендуемый: Финтабло + партнёрство</h3>
+      <p>Автоматизация снижает нагрузку на 40%, чек растёт на 25%, партнёрский доход +1 000 руб/мес за клиента. Самый быстрый путь к ${fmt(D.targetRub)} руб/мес.</p>
     </div>`;
+
+  let road = '';
+  D.roadmapSteps.forEach((s, i) => {
+    road += `<div class="roadmap-step"><div class="step-dot">${i + 1}</div><div class="step-title">${s.title}</div><div class="step-desc">${s.desc}</div></div>`;
   });
-  document.getElementById('full-roadmap').innerHTML = `<h3 style="margin: 24px 0 12px;">Полная карта пути</h3><div class="roadmap">${roadHtml}</div>`;
+  document.getElementById('full-roadmap').innerHTML = `<h3 style="margin:24px 0 12px;">Полная карта пути</h3><div class="roadmap">${road}</div>`;
 }
 </script>
 </body>
