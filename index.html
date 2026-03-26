@@ -213,9 +213,9 @@ input[type="number"]:focus { border-color: #4361ee; outline: none; }
       </div>
     </div>
 
-    <div class="nav-buttons">
+    <div class="nav-buttons" id="nav-2">
       <button class="btn btn-secondary" onclick="goTo(1)">Назад</button>
-      <button class="btn btn-primary" onclick="submitScreen2()">Далее</button>
+      <button class="btn btn-primary" id="btn-2" onclick="submitScreen2()">Далее</button>
     </div>
 
     <div id="insight-2" class="insight-block" style="display:none;"></div>
@@ -276,9 +276,9 @@ input[type="number"]:focus { border-color: #4361ee; outline: none; }
       </div>
     </div>
 
-    <div class="nav-buttons">
+    <div class="nav-buttons" id="nav-3">
       <button class="btn btn-secondary" onclick="goTo(2)">Назад</button>
-      <button class="btn btn-primary" onclick="submitScreen3()">Далее</button>
+      <button class="btn btn-primary" id="btn-3" onclick="submitScreen3()">Далее</button>
     </div>
 
     <div id="insight-3" class="insight-block" style="display:none;"></div>
@@ -325,9 +325,9 @@ input[type="number"]:focus { border-color: #4361ee; outline: none; }
       </div>
     </div>
 
-    <div class="nav-buttons">
+    <div class="nav-buttons" id="nav-4">
       <button class="btn btn-secondary" onclick="goTo(3)">Назад</button>
-      <button class="btn btn-primary" onclick="submitScreen4()">Показать результаты</button>
+      <button class="btn btn-primary" id="btn-4" onclick="submitScreen4()">Показать результаты</button>
     </div>
 
     <div id="insight-4" class="insight-block" style="display:none;"></div>
@@ -525,7 +525,10 @@ function submitScreen2() {
     <p>${insightTexts[scale]}</p>
   `;
 
-  setTimeout(() => goTo(3), 1500);
+  el.scrollIntoView({ behavior: 'smooth' });
+  const btn = document.getElementById('btn-2');
+  btn.textContent = 'Продолжить';
+  btn.onclick = () => { btn.textContent = 'Далее'; btn.onclick = submitScreen2; goTo(3); };
 }
 
 // --- Screen 3: Ограничения ---
@@ -597,7 +600,10 @@ function submitScreen3() {
   el.style.display = 'block';
   el.innerHTML = `<h3>Карта ограничений</h3>${barsHtml}<p style="margin-top:16px;">${constraintTexts[primary]}</p>`;
 
-  setTimeout(() => goTo(4), 1800);
+  el.scrollIntoView({ behavior: 'smooth' });
+  const btn = document.getElementById('btn-3');
+  btn.textContent = 'Продолжить';
+  btn.onclick = () => { btn.textContent = 'Далее'; btn.onclick = submitScreen3; goTo(4); };
 }
 
 // --- Screen 4: Цели ---
@@ -645,7 +651,10 @@ function submitScreen4() {
     <p>${trajectoryTexts[trajectory]}</p>
   `;
 
-  setTimeout(() => { buildScenarios(); buildRoadmap(); goTo(5); }, 1500);
+  el.scrollIntoView({ behavior: 'smooth' });
+  const btn = document.getElementById('btn-4');
+  btn.textContent = 'Продолжить';
+  btn.onclick = () => { btn.textContent = 'Показать результаты'; btn.onclick = submitScreen4; buildScenarios(); buildRoadmap(); goTo(5); };
 }
 
 // --- Scenarios ---
