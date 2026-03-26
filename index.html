@@ -5,479 +5,541 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Рост практики финансиста — диагностика</title>
 <style>
-* { margin: 0; padding: 0; box-sizing: border-box; }
-body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f7f8fa; color: #1a1a2e; line-height: 1.6; }
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#f7f8fa;color:#1a1a2e;line-height:1.6}
+.wizard{max-width:720px;margin:0 auto;min-height:100vh;display:flex;flex-direction:column}
+.screen{display:none;padding:0 24px 40px;animation:fadeIn .25s ease;flex:1;flex-direction:column}
+.screen.active{display:flex}
+@keyframes fadeIn{from{opacity:0;transform:translateX(20px)}to{opacity:1;transform:translateX(0)}}
 
-.wizard { max-width: 720px; margin: 0 auto; min-height: 100vh; }
-.screen { display: none; padding: 40px 24px; animation: fadeIn 0.3s ease; }
-.screen.active { display: block; }
-@keyframes fadeIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+.progress-wrap{position:sticky;top:0;background:#f7f8fa;padding:16px 24px 0;z-index:10}
+.progress-bar{height:3px;background:#e0e0e0;border-radius:2px}
+.progress-fill{height:100%;background:#4361ee;border-radius:2px;transition:width .4s ease}
+.progress-label{font-size:12px;color:#999;margin-top:6px}
 
-.screen-header { margin-bottom: 32px; }
-.screen-header h1 { font-size: 28px; font-weight: 700; line-height: 1.3; margin-bottom: 12px; }
-.screen-header h2 { font-size: 22px; font-weight: 700; line-height: 1.3; margin-bottom: 8px; }
-.screen-header p { font-size: 16px; color: #555; }
-.step-indicator { font-size: 13px; color: #999; margin-bottom: 8px; letter-spacing: 0.5px; }
+.q-screen{flex:1;display:flex;flex-direction:column;justify-content:center;padding-top:20px}
+.q-title{font-size:20px;font-weight:700;line-height:1.3;margin-bottom:6px}
+.q-hint{font-size:14px;color:#888;margin-bottom:20px}
 
-.field { margin-bottom: 24px; }
-.field label { display: block; font-weight: 600; font-size: 15px; margin-bottom: 8px; }
-.field .hint { font-size: 13px; color: #888; margin-bottom: 6px; }
-
-input[type="number"] {
-  width: 100%; padding: 12px 16px; border: 2px solid #e0e0e0; border-radius: 10px;
-  font-size: 16px; transition: border-color 0.2s; background: #fff;
+.opts{display:flex;flex-direction:column;gap:10px}
+.opt{
+  padding:14px 18px;border:2px solid #e0e0e0;border-radius:12px;cursor:pointer;
+  font-size:15px;transition:all .15s;background:#fff;min-height:48px;
+  display:flex;align-items:center
 }
-input[type="number"]:focus { border-color: #4361ee; outline: none; }
+.opt:hover{border-color:#b0b0b0}
+.opt.picked{border-color:#4361ee;background:#f0f4ff;font-weight:600}
 
-.radio-group { display: flex; flex-direction: column; gap: 8px; }
-.radio-option {
-  display: flex; align-items: center; padding: 12px 16px; border: 2px solid #e0e0e0;
-  border-radius: 10px; cursor: pointer; transition: all 0.2s; background: #fff;
+.multi-opts{display:flex;flex-wrap:wrap;gap:8px}
+.m-opt{
+  padding:10px 18px;border:2px solid #e0e0e0;border-radius:20px;cursor:pointer;
+  font-size:14px;transition:all .15s;background:#fff;user-select:none
 }
-.radio-option:hover { border-color: #b0b0b0; }
-.radio-option.selected { border-color: #4361ee; background: #f0f4ff; }
-.radio-option input { display: none; }
-.radio-option span { font-size: 15px; }
+.m-opt:hover{border-color:#b0b0b0}
+.m-opt.picked{border-color:#4361ee;background:#f0f4ff}
 
-.multi-select-group { display: flex; flex-wrap: wrap; gap: 8px; }
-.multi-option {
-  padding: 8px 16px; border: 2px solid #e0e0e0; border-radius: 20px;
-  cursor: pointer; font-size: 14px; transition: all 0.2s; background: #fff; user-select: none;
-}
-.multi-option:hover { border-color: #b0b0b0; }
-.multi-option.selected { border-color: #4361ee; background: #f0f4ff; }
+.micro-reward{font-size:13px;color:#1D9E75;margin-top:10px;min-height:20px;font-weight:500;opacity:0;transition:opacity .3s}
+.micro-reward.show{opacity:1}
 
-.btn {
-  display: inline-block; padding: 14px 32px; border-radius: 10px; font-size: 16px;
-  font-weight: 600; cursor: pointer; transition: all 0.2s; border: none; text-align: center;
-}
-.btn-primary { background: #4361ee; color: #fff; }
-.btn-primary:hover { background: #3451de; }
-.btn-primary:disabled { background: #b0b0b0; cursor: not-allowed; }
-.btn-secondary { background: #fff; color: #4361ee; border: 2px solid #4361ee; }
-.btn-secondary:hover { background: #f0f4ff; }
-.nav-buttons { display: flex; gap: 12px; margin-top: 32px; }
-.nav-buttons .btn { flex: 1; }
+.btn{display:inline-block;padding:14px 32px;border-radius:12px;font-size:16px;font-weight:600;cursor:pointer;transition:all .2s;border:none;text-align:center;min-height:48px}
+.btn-primary{background:#4361ee;color:#fff}
+.btn-primary:hover{background:#3451de}
+.btn-secondary{background:#fff;color:#4361ee;border:2px solid #4361ee}
+.btn-secondary:hover{background:#f0f4ff}
+.btn-next{width:100%;margin-top:16px;opacity:0;pointer-events:none;transition:opacity .3s}
+.btn-next.ready{opacity:1;pointer-events:auto}
+.nav-buttons{display:flex;gap:12px;margin-top:24px}
+.nav-buttons .btn{flex:1}
+.back-link{font-size:13px;color:#999;cursor:pointer;margin-top:12px;text-align:center}
+.back-link:hover{color:#4361ee}
 
-.insight-block { background: #f0f4ff; border-radius: 14px; padding: 24px; margin: 24px 0; border-left: 4px solid #4361ee; }
-.insight-block h3 { font-size: 17px; font-weight: 700; margin-bottom: 12px; color: #4361ee; }
-.insight-block p { font-size: 15px; color: #333; }
+.insight-block{background:#f0f4ff;border-radius:14px;padding:24px;margin:16px 0;border-left:4px solid #4361ee}
+.insight-block h3{font-size:17px;font-weight:700;margin-bottom:12px;color:#4361ee}
+.insight-block p{font-size:15px;color:#333}
 
-.metric-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 16px 0; }
-.metric-card {
-  background: #fff; border-radius: 10px; padding: 16px; text-align: center;
-  border: 1px solid #e8e8e8;
-}
-.metric-card .value { font-size: 24px; font-weight: 700; color: #4361ee; }
-.metric-card .label { font-size: 12px; color: #888; margin-top: 4px; }
+.metric-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:16px 0}
+.metric-card{background:#fff;border-radius:10px;padding:16px;text-align:center;border:1px solid #e8e8e8}
+.metric-card .value{font-size:22px;font-weight:700;color:#4361ee}
+.metric-card .label{font-size:11px;color:#888;margin-top:4px}
 
-.constraint-bar { margin-bottom: 12px; }
-.constraint-bar .bar-label { display: flex; justify-content: space-between; font-size: 14px; margin-bottom: 4px; }
-.constraint-bar .bar-label .name { font-weight: 600; }
-.constraint-bar .bar-track { height: 8px; background: #e8e8e8; border-radius: 4px; overflow: hidden; }
-.constraint-bar .bar-fill { height: 100%; border-radius: 4px; transition: width 0.5s ease; }
-.bar-ok { background: #22c55e; }
-.bar-warn { background: #f59e0b; }
-.bar-crit { background: #ef4444; }
+.constraint-bar{margin-bottom:12px}
+.constraint-bar .bar-label{display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px}
+.constraint-bar .bar-label .name{font-weight:600}
+.constraint-bar .bar-track{height:8px;background:#e8e8e8;border-radius:4px;overflow:hidden}
+.constraint-bar .bar-fill{height:100%;border-radius:4px;transition:width .5s ease}
+.bar-ok{background:#22c55e}.bar-warn{background:#f59e0b}.bar-crit{background:#ef4444}
 
-.scenarios-table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 14px; }
-.scenarios-table th { background: #f0f4ff; padding: 10px 8px; text-align: left; font-weight: 600; font-size: 13px; }
-.scenarios-table td { padding: 10px 8px; border-bottom: 1px solid #eee; }
-.scenarios-table tr:last-child td { border-bottom: none; }
-.scenarios-table .highlight { background: #f0f4ff; font-weight: 600; }
+.scenarios-table{width:100%;border-collapse:collapse;margin:16px 0;font-size:13px}
+.scenarios-table th{background:#f0f4ff;padding:10px 8px;text-align:left;font-weight:600;font-size:12px}
+.scenarios-table td{padding:10px 8px;border-bottom:1px solid #eee}
+.scenarios-table tr:last-child td{border-bottom:none}
+.scenarios-table .highlight{background:#f0f4ff;font-weight:600}
 
-.roadmap { position: relative; padding-left: 32px; margin: 20px 0; }
-.roadmap::before { content: ''; position: absolute; left: 11px; top: 0; bottom: 0; width: 2px; background: #e0e0e0; }
-.roadmap-step { position: relative; margin-bottom: 20px; }
-.roadmap-step .step-dot {
-  position: absolute; left: -32px; top: 2px; width: 22px; height: 22px;
-  border-radius: 50%; background: #4361ee; color: #fff; font-size: 11px;
-  display: flex; align-items: center; justify-content: center; font-weight: 700;
-}
-.roadmap-step .step-title { font-weight: 600; font-size: 15px; margin-bottom: 4px; }
-.roadmap-step .step-desc { font-size: 14px; color: #666; }
+.roadmap{position:relative;padding-left:32px;margin:20px 0}
+.roadmap::before{content:'';position:absolute;left:11px;top:0;bottom:0;width:2px;background:#e0e0e0}
+.roadmap-step{position:relative;margin-bottom:20px}
+.roadmap-step .step-dot{position:absolute;left:-32px;top:2px;width:22px;height:22px;border-radius:50%;background:#4361ee;color:#fff;font-size:11px;display:flex;align-items:center;justify-content:center;font-weight:700}
+.roadmap-step .step-title{font-weight:600;font-size:15px;margin-bottom:4px}
+.roadmap-step .step-desc{font-size:14px;color:#666}
 
-.blurred { filter: blur(6px); user-select: none; pointer-events: none; }
-.gate-overlay {
-  background: linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.95) 40%, #fff 100%);
-  padding: 60px 24px 40px; margin-top: -80px; position: relative; text-align: center;
-}
-.gate-overlay h3 { font-size: 20px; font-weight: 700; margin-bottom: 12px; }
-.gate-overlay p { font-size: 15px; color: #555; margin-bottom: 20px; }
+.blurred{filter:blur(6px);user-select:none;pointer-events:none}
+.gate-overlay{background:linear-gradient(180deg,rgba(255,255,255,0) 0%,rgba(255,255,255,.95) 40%,#fff 100%);padding:60px 24px 40px;margin-top:-80px;position:relative;text-align:center}
+.gate-overlay h3{font-size:20px;font-weight:700;margin-bottom:12px}
+.gate-overlay p{font-size:15px;color:#555;margin-bottom:20px}
+.gate-form{max-width:400px;margin:0 auto}
+.gate-form input[type="text"]{width:100%;padding:12px 16px;border:2px solid #e0e0e0;border-radius:10px;font-size:15px;margin-bottom:12px;background:#fff}
+.gate-form input:focus{border-color:#4361ee;outline:none}
 
-.gate-form { max-width: 400px; margin: 0 auto; }
-.gate-form input[type="text"], .gate-form input[type="email"] {
-  width: 100%; padding: 12px 16px; border: 2px solid #e0e0e0; border-radius: 10px;
-  font-size: 15px; margin-bottom: 12px; background: #fff;
-}
-.gate-form input:focus { border-color: #4361ee; outline: none; }
+.landing{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:80vh;text-align:center;flex:1}
+.landing h1{font-size:28px;font-weight:700;max-width:560px;margin-bottom:12px;line-height:1.3}
+.landing p{font-size:16px;color:#555;max-width:460px;margin-bottom:8px}
+.landing .social-proof{font-size:13px;color:#999;margin-bottom:24px}
+.risk-low{color:#22c55e;font-weight:600}.risk-mid{color:#f59e0b;font-weight:600}.risk-high{color:#ef4444;font-weight:600}
 
-.landing { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 80vh; text-align: center; }
-.landing h1 { font-size: 32px; max-width: 600px; margin-bottom: 16px; }
-.landing p { font-size: 17px; color: #555; max-width: 500px; margin-bottom: 32px; }
-
-.risk-low { color: #22c55e; font-weight: 600; }
-.risk-mid { color: #f59e0b; font-weight: 600; }
-.risk-high { color: #ef4444; font-weight: 600; }
-
-@media (max-width: 600px) {
-  .screen { padding: 24px 16px; }
-  .metric-cards { grid-template-columns: 1fr; }
-  .scenarios-table { font-size: 12px; }
-  .landing h1 { font-size: 24px; }
+@media(max-width:600px){
+  .screen{padding:0 16px 32px}
+  .progress-wrap{padding:12px 16px 0}
+  .metric-cards{grid-template-columns:1fr}
+  .scenarios-table{font-size:11px}
+  .landing h1{font-size:22px}
+  .q-title{font-size:18px}
 }
 </style>
 </head>
 <body>
 <div class="wizard">
 
-  <!-- Экран 1: Вход -->
-  <div class="screen active" id="screen-1">
-    <div class="landing">
-      <h1>Поймите, что сдерживает рост вашей практики и как выйти на следующий уровень дохода</h1>
-      <p>За несколько шагов получите разбор текущей модели, сценарии роста с расчётами и план движения к более сильной практике.</p>
-      <button class="btn btn-primary" onclick="goTo(2)">Начать диагностику</button>
+<div class="progress-wrap" id="progress-wrap" style="display:none">
+  <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+  <div class="progress-label" id="progress-label"></div>
+</div>
+
+<!-- S1: Старт -->
+<div class="screen active" data-step="0" id="s-start">
+  <div class="landing">
+    <h1>Поймите, что сдерживает рост вашей практики и как выйти на следующий уровень дохода</h1>
+    <p>Разбор текущей модели, сценарии роста с расчётами и персональный план действий</p>
+    <div class="social-proof">820 финансистов уже прошли · 3 минуты</div>
+    <button class="btn btn-primary" onclick="next()">Начать диагностику</button>
+  </div>
+</div>
+
+<!-- Q1: Клиенты -->
+<div class="screen" data-step="1" data-field="clients">
+  <div class="q-screen">
+    <div class="q-title">Сколько клиентов ведёте сейчас?</div>
+    <div class="q-hint">Выберите ближайший диапазон</div>
+    <div class="opts" data-field="clients">
+      <div class="opt" data-value="1-3" data-mid="2" data-reward="Начало пути. Фокус и глубина — ваша сила">1–3 клиента</div>
+      <div class="opt" data-value="4-7" data-mid="6" data-reward="Самый распространённый масштаб — 68% финансистов здесь">4–7 клиентов</div>
+      <div class="opt" data-value="8-15" data-mid="11" data-reward="Серьёзная практика. Вопрос — хватает ли ресурса">8–15 клиентов</div>
+      <div class="opt" data-value="16+" data-mid="20" data-reward="Агентский масштаб. Без системы дальше сложно">16+ клиентов</div>
+    </div>
+    <div class="micro-reward" id="rw-clients"></div>
+    <div class="back-link" onclick="prev()">Назад</div>
+  </div>
+</div>
+
+<!-- Q2: Чек -->
+<div class="screen" data-step="2" data-field="avg_check">
+  <div class="q-screen">
+    <div class="q-title">Средний чек за клиента?</div>
+    <div class="q-hint">Тыс. руб/мес — если разные, примерно средний</div>
+    <div class="opts" data-field="avg_check">
+      <div class="opt" data-value="0-20" data-mid="15" data-reward="Есть пространство для роста чека">до 20 тыс</div>
+      <div class="opt" data-value="20-40" data-mid="30" data-reward="Хороший уровень для старта масштабирования">20–40 тыс</div>
+      <div class="opt" data-value="40-80" data-mid="60" data-reward="Выше среднего. Клиенты ценят экспертизу">40–80 тыс</div>
+      <div class="opt" data-value="80+" data-mid="100" data-reward="Премиум-сегмент. Каждый клиент на вес золота">80+ тыс</div>
+    </div>
+    <div class="micro-reward" id="rw-avg_check"></div>
+    <div class="back-link" onclick="prev()">Назад</div>
+  </div>
+</div>
+
+<!-- Q3: Часы -->
+<div class="screen" data-step="3" data-field="hours">
+  <div class="q-screen">
+    <div class="q-title">Сколько часов в месяц уходит на одного клиента?</div>
+    <div class="opts" data-field="hours">
+      <div class="opt" data-value="5-10" data-mid="7.5" data-reward="Лёгкая модель — есть запас ёмкости">5–10 часов</div>
+      <div class="opt" data-value="10-20" data-mid="15" data-reward="Стандартная нагрузка для ФД на аутсорсе">10–20 часов</div>
+      <div class="opt" data-value="20-40" data-mid="30" data-reward="Высокая нагрузка — есть потенциал для оптимизации">20–40 часов</div>
+      <div class="opt" data-value="40+" data-mid="45" data-reward="Максимальная загрузка. Автоматизация критична">40+ часов</div>
+    </div>
+    <div class="micro-reward" id="rw-hours"></div>
+    <div class="back-link" onclick="prev()">Назад</div>
+  </div>
+</div>
+
+<!-- Q4: Модель дохода -->
+<div class="screen" data-step="4" data-field="revenue">
+  <div class="q-screen">
+    <div class="q-title">Как формируется доход?</div>
+    <div class="opts" data-field="revenue">
+      <div class="opt" data-value="fixed" data-reward="Стабильная база. 72% успешных практик работают так">Фиксированная абонентка</div>
+      <div class="opt" data-value="hourly" data-reward="Гибкость, но доход привязан к времени">Почасовая оплата</div>
+      <div class="opt" data-value="mix" data-reward="Гибридная модель — баланс стабильности и роста">Микс (абонентка + проектные)</div>
+    </div>
+    <div class="micro-reward" id="rw-revenue"></div>
+    <div class="back-link" onclick="prev()">Назад</div>
+  </div>
+</div>
+
+<!-- Q5: Источники клиентов -->
+<div class="screen" data-step="5" data-field="sources">
+  <div class="q-screen">
+    <div class="q-title">Откуда приходят клиенты?</div>
+    <div class="q-hint">Можно выбрать несколько</div>
+    <div class="multi-opts" data-field="sources">
+      <div class="m-opt" data-value="referral">Сарафан</div>
+      <div class="m-opt" data-value="partners">Рекомендации партнёров</div>
+      <div class="m-opt" data-value="content">Соцсети и контент</div>
+      <div class="m-opt" data-value="platforms">Площадки</div>
+      <div class="m-opt" data-value="cold">Холодный поиск</div>
+    </div>
+    <button class="btn btn-primary btn-next" id="btn-sources" onclick="next()">Далее</button>
+    <div class="back-link" onclick="prev()">Назад</div>
+  </div>
+</div>
+
+<!-- Q6: Инструменты -->
+<div class="screen" data-step="6" data-field="tools">
+  <div class="q-screen">
+    <div class="q-title">Какие инструменты используете?</div>
+    <div class="q-hint">Можно выбрать несколько</div>
+    <div class="multi-opts" data-field="tools">
+      <div class="m-opt" data-value="excel">Excel / Google Sheets</div>
+      <div class="m-opt" data-value="1c">1С</div>
+      <div class="m-opt" data-value="fintablo">Финтабло</div>
+      <div class="m-opt" data-value="other_saas">Другой сервис УУ</div>
+      <div class="m-opt" data-value="custom">Самописные шаблоны</div>
+    </div>
+    <button class="btn btn-primary btn-next" id="btn-tools" onclick="next()">Далее</button>
+    <div class="back-link" onclick="prev()">Назад</div>
+  </div>
+</div>
+
+<!-- Insight A: Модель практики -->
+<div class="screen" data-step="7" id="s-insight-a">
+  <div class="q-screen">
+    <div id="insight-a"></div>
+    <div class="nav-buttons">
+      <button class="btn btn-secondary" onclick="prev()">Назад</button>
+      <button class="btn btn-primary" onclick="next()">Продолжить</button>
     </div>
   </div>
+</div>
 
-  <!-- Экран 2: Текущая модель практики -->
-  <div class="screen" id="screen-2">
-    <div class="step-indicator">Шаг 1 из 3</div>
-    <div class="screen-header">
-      <h2>Текущая модель практики</h2>
-      <p>Расскажите о своей практике, чтобы мы могли рассчитать ваши возможности роста</p>
+<!-- Q7: Поток лидов -->
+<div class="screen" data-step="8" data-field="leads">
+  <div class="q-screen">
+    <div class="q-title">Как часто приходят новые запросы?</div>
+    <div class="opts" data-field="leads">
+      <div class="opt" data-value="weekly" data-reward="Отличный поток — фокус на конверсию">Каждую неделю</div>
+      <div class="opt" data-value="monthly" data-reward="Есть, но не системно — можно усилить">1–2 раза в месяц</div>
+      <div class="opt" data-value="quarterly" data-reward="Это главный тормоз роста для большинства практик">Раз в квартал или реже</div>
+      <div class="opt" data-value="none" data-reward="Без входящих расти крайне сложно">Не приходят — ищу сам</div>
     </div>
-    <div class="field">
-      <label>Сколько клиентов ведёте сейчас?</label>
-      <input type="number" id="clients_count" min="1" max="50" placeholder="Например: 5">
+    <div class="micro-reward" id="rw-leads"></div>
+    <div class="back-link" onclick="prev()">Назад</div>
+  </div>
+</div>
+
+<!-- Q8: Ёмкость -->
+<div class="screen" data-step="9" data-field="capacity">
+  <div class="q-screen">
+    <div class="q-title">Если завтра придёт идеальный клиент — сможете взять?</div>
+    <div class="opts" data-field="capacity">
+      <div class="opt" data-value="yes" data-reward="Хорошо — есть пространство для роста">Да, есть ресурс</div>
+      <div class="opt" data-value="tight" data-reward="На грани — один новый клиент и всё посыплется">Возьму, но будет тяжело</div>
+      <div class="opt" data-value="no" data-reward="Потолок достигнут — нужна оптимизация или делегирование">Нет, некуда</div>
+      <div class="opt" data-value="swap" data-reward="Ротация клиентов — признак нехватки ёмкости">Возьму, если откажусь от кого-то</div>
     </div>
-    <div class="field">
-      <label>Средний чек за клиента (тыс. руб/мес)</label>
-      <div class="hint">Если чеки разные — укажите средний</div>
-      <input type="number" id="avg_check" min="5" max="500" step="5" placeholder="Например: 40">
+    <div class="micro-reward" id="rw-capacity"></div>
+    <div class="back-link" onclick="prev()">Назад</div>
+  </div>
+</div>
+
+<!-- Q9: Упаковка -->
+<div class="screen" data-step="10" data-field="product">
+  <div class="q-screen">
+    <div class="q-title">Есть ли описанное предложение — пакеты, тарифы?</div>
+    <div class="opts" data-field="product">
+      <div class="opt" data-value="packages" data-reward="Сильно — упаковка ускоряет продажи и масштабирование">Да, чёткие пакеты с ценами</div>
+      <div class="opt" data-value="adapt" data-reward="Каждый раз заново — это замедляет рост">Есть, но адаптирую под клиента</div>
+      <div class="opt" data-value="individual" data-reward="Без пакетов каждая продажа — переговоры с нуля">Нет, обсуждаю индивидуально</div>
     </div>
-    <div class="field">
-      <label>Сколько часов в месяц уходит на одного клиента?</label>
-      <div class="radio-group" data-field="hours_per_client">
-        <div class="radio-option" data-value="5-10"><span>5–10 часов</span></div>
-        <div class="radio-option" data-value="10-20"><span>10–20 часов</span></div>
-        <div class="radio-option" data-value="20-40"><span>20–40 часов</span></div>
-        <div class="radio-option" data-value="40+"><span>40+ часов</span></div>
-      </div>
+    <div class="micro-reward" id="rw-product"></div>
+    <div class="back-link" onclick="prev()">Назад</div>
+  </div>
+</div>
+
+<!-- Q10: Делегирование -->
+<div class="screen" data-step="11" data-field="delegation">
+  <div class="q-screen">
+    <div class="q-title">Делегируете ли часть работы?</div>
+    <div class="opts" data-field="delegation">
+      <div class="opt" data-value="team" data-reward="Вы уже масштабируетесь — отлично">Да, есть команда</div>
+      <div class="opt" data-value="partial" data-reward="Начало есть — нужно углублять">Частично, но основное сам</div>
+      <div class="opt" data-value="solo" data-reward="Потолок = ваше время. Это ограничение №1">Нет, делаю всё сам</div>
     </div>
-    <div class="field">
-      <label>Как формируется доход?</label>
-      <div class="radio-group" data-field="revenue_model">
-        <div class="radio-option" data-value="fixed"><span>Фиксированная абонентка</span></div>
-        <div class="radio-option" data-value="hourly"><span>Почасовая оплата</span></div>
-        <div class="radio-option" data-value="mix"><span>Микс (абонентка + проектные работы)</span></div>
-      </div>
+    <div class="micro-reward" id="rw-delegation"></div>
+    <div class="back-link" onclick="prev()">Назад</div>
+  </div>
+</div>
+
+<!-- Q11: Ценообразование -->
+<div class="screen" data-step="12" data-field="pricing">
+  <div class="q-screen">
+    <div class="q-title">Поднимали ли чек за последний год?</div>
+    <div class="opts" data-field="pricing">
+      <div class="opt" data-value="raised" data-reward="Хороший знак — вы управляете экономикой практики">Да, поднял</div>
+      <div class="opt" data-value="afraid" data-reward="Страх потери клиента — самая частая причина низкого дохода">Хотел, но побоялся</div>
+      <div class="opt" data-value="no" data-reward="Ваша экспертиза выросла, а чек — нет">Нет, не думал</div>
     </div>
-    <div class="field">
-      <label>Откуда приходят клиенты?</label>
-      <div class="hint">Можно выбрать несколько</div>
-      <div class="multi-select-group" data-field="lead_source">
-        <div class="multi-option" data-value="referral">Сарафан</div>
-        <div class="multi-option" data-value="partners">Рекомендации партнёров</div>
-        <div class="multi-option" data-value="content">Соцсети и контент</div>
-        <div class="multi-option" data-value="platforms">Площадки и агрегаторы</div>
-        <div class="multi-option" data-value="cold">Холодный поиск</div>
-      </div>
-    </div>
-    <div class="field">
-      <label>Какие инструменты используете для учёта клиентов?</label>
-      <div class="hint">Можно выбрать несколько</div>
-      <div class="multi-select-group" data-field="tools">
-        <div class="multi-option" data-value="excel">Excel / Google Sheets</div>
-        <div class="multi-option" data-value="1c">1С</div>
-        <div class="multi-option" data-value="fintablo">Финтабло</div>
-        <div class="multi-option" data-value="other_saas">Другой сервис УУ</div>
-        <div class="multi-option" data-value="custom">Самописные шаблоны</div>
-      </div>
-    </div>
+    <div class="micro-reward" id="rw-pricing"></div>
+    <div class="back-link" onclick="prev()">Назад</div>
+  </div>
+</div>
+
+<!-- Insight B: Ограничения -->
+<div class="screen" data-step="13" id="s-insight-b">
+  <div class="q-screen">
+    <div id="insight-b"></div>
     <div class="nav-buttons">
-      <button class="btn btn-secondary" onclick="goTo(1)">Назад</button>
-      <button class="btn btn-primary" onclick="submitScreen2()">Далее</button>
+      <button class="btn btn-secondary" onclick="prev()">Назад</button>
+      <button class="btn btn-primary" onclick="next()">Продолжить</button>
     </div>
   </div>
+</div>
 
-  <!-- Экран 2b: Инсайт по модели -->
-  <div class="screen" id="screen-2b">
-    <div class="step-indicator">Результат шага 1</div>
-    <div id="insight-2"></div>
-    <div class="nav-buttons">
-      <button class="btn btn-secondary" onclick="goTo(2)">Назад</button>
-      <button class="btn btn-primary" onclick="goTo(3)">Продолжить</button>
+<!-- Q12: Целевой доход -->
+<div class="screen" data-step="14" data-field="target">
+  <div class="q-screen">
+    <div class="q-title">Какой доход хотите через 6–12 месяцев?</div>
+    <div class="q-hint">Тыс. руб/мес</div>
+    <div class="opts" data-field="target">
+      <div class="opt" data-value="100-200" data-mid="150" data-reward="Реалистичная цель — разберём как достичь">100–200 тыс</div>
+      <div class="opt" data-value="200-400" data-mid="300" data-reward="Амбициозно — потребуются системные изменения">200–400 тыс</div>
+      <div class="opt" data-value="400-700" data-mid="550" data-reward="Масштабирование — нужна другая модель">400–700 тыс</div>
+      <div class="opt" data-value="700+" data-mid="900" data-reward="Трансформация — это уже построение бизнеса">700+ тыс</div>
     </div>
+    <div class="micro-reward" id="rw-target"></div>
+    <div class="back-link" onclick="prev()">Назад</div>
   </div>
+</div>
 
-  <!-- Экран 3: Ограничения роста -->
-  <div class="screen" id="screen-3">
-    <div class="step-indicator">Шаг 2 из 3</div>
-    <div class="screen-header">
-      <h2>Ограничения роста</h2>
-      <p>Определим, что именно сдерживает вашу практику</p>
+<!-- Q13: Срок -->
+<div class="screen" data-step="15" data-field="timeline">
+  <div class="q-screen">
+    <div class="q-title">За какой срок?</div>
+    <div class="opts" data-field="timeline">
+      <div class="opt" data-value="3" data-reward="Быстрый спринт — фокус на быстрые рычаги">3 месяца</div>
+      <div class="opt" data-value="6" data-reward="Оптимальный горизонт для системных изменений">6 месяцев</div>
+      <div class="opt" data-value="12" data-reward="Достаточно для глубокой перестройки модели">12 месяцев</div>
     </div>
-    <div class="field">
-      <label>Как часто приходят новые запросы от потенциальных клиентов?</label>
-      <div class="radio-group" data-field="bottleneck_leads">
-        <div class="radio-option" data-value="weekly"><span>Каждую неделю</span></div>
-        <div class="radio-option" data-value="monthly"><span>1–2 раза в месяц</span></div>
-        <div class="radio-option" data-value="quarterly"><span>Раз в квартал или реже</span></div>
-        <div class="radio-option" data-value="none"><span>Не приходят — ищу сам</span></div>
-      </div>
-    </div>
-    <div class="field">
-      <label>Если завтра придёт идеальный клиент — сможете взять?</label>
-      <div class="radio-group" data-field="bottleneck_capacity">
-        <div class="radio-option" data-value="yes"><span>Да, есть ресурс</span></div>
-        <div class="radio-option" data-value="tight"><span>Возьму, но будет тяжело</span></div>
-        <div class="radio-option" data-value="no"><span>Нет, некуда</span></div>
-        <div class="radio-option" data-value="swap"><span>Возьму, если откажусь от кого-то</span></div>
-      </div>
-    </div>
-    <div class="field">
-      <label>Есть ли описанное предложение — пакеты, тарифы, состав работ?</label>
-      <div class="radio-group" data-field="bottleneck_product">
-        <div class="radio-option" data-value="packages"><span>Да, чёткие пакеты с ценами</span></div>
-        <div class="radio-option" data-value="adapt"><span>Есть, но каждый раз адаптирую</span></div>
-        <div class="radio-option" data-value="individual"><span>Нет, обсуждаю индивидуально</span></div>
-      </div>
-    </div>
-    <div class="field">
-      <label>Делегируете ли часть работы?</label>
-      <div class="radio-group" data-field="bottleneck_delegation">
-        <div class="radio-option" data-value="team"><span>Да, есть команда</span></div>
-        <div class="radio-option" data-value="partial"><span>Частично, но основное сам</span></div>
-        <div class="radio-option" data-value="solo"><span>Нет, делаю всё сам</span></div>
-      </div>
-    </div>
-    <div class="field">
-      <label>Поднимали ли чек за последний год?</label>
-      <div class="radio-group" data-field="bottleneck_pricing">
-        <div class="radio-option" data-value="raised"><span>Да, поднял</span></div>
-        <div class="radio-option" data-value="afraid"><span>Хотел, но побоялся потерять клиента</span></div>
-        <div class="radio-option" data-value="no"><span>Нет, не думал об этом</span></div>
-      </div>
-    </div>
-    <div class="nav-buttons">
-      <button class="btn btn-secondary" onclick="goTo('2b')">Назад</button>
-      <button class="btn btn-primary" onclick="submitScreen3()">Далее</button>
-    </div>
+    <div class="micro-reward" id="rw-timeline"></div>
+    <div class="back-link" onclick="prev()">Назад</div>
   </div>
+</div>
 
-  <!-- Экран 3b: Инсайт по ограничениям -->
-  <div class="screen" id="screen-3b">
-    <div class="step-indicator">Результат шага 2</div>
-    <div id="insight-3"></div>
-    <div class="nav-buttons">
-      <button class="btn btn-secondary" onclick="goTo(3)">Назад</button>
-      <button class="btn btn-primary" onclick="goTo(4)">Продолжить</button>
+<!-- Q14: Путь роста -->
+<div class="screen" data-step="16" data-field="intent">
+  <div class="q-screen">
+    <div class="q-title">Какой путь роста вам ближе?</div>
+    <div class="opts" data-field="intent">
+      <div class="opt" data-value="premium" data-reward="Меньше клиентов, глубже работа, выше чек">Меньше клиентов, но дороже</div>
+      <div class="opt" data-value="automation" data-reward="Технология снимает рутину — вы берёте больше">Больше клиентов через автоматизацию</div>
+      <div class="opt" data-value="team" data-reward="Команда = масштаб. Но нужна система">Построить команду</div>
+      <div class="opt" data-value="products" data-reward="Продукты масштабируются без линейного роста нагрузки">Новые услуги и продукты</div>
     </div>
+    <div class="micro-reward" id="rw-intent"></div>
+    <div class="back-link" onclick="prev()">Назад</div>
   </div>
+</div>
 
-  <!-- Экран 4: Цели и траектория -->
-  <div class="screen" id="screen-4">
-    <div class="step-indicator">Шаг 3 из 3</div>
-    <div class="screen-header">
-      <h2>Цели и траектория</h2>
-      <p>Куда вы хотите прийти?</p>
-    </div>
-    <div class="field">
-      <label>Целевой доход (тыс. руб/мес)</label>
-      <input type="number" id="target_income" min="50" max="2000" step="10" placeholder="Например: 300">
-    </div>
-    <div class="field">
-      <label>За какой срок хотите достичь цели?</label>
-      <div class="radio-group" data-field="target_timeline">
-        <div class="radio-option" data-value="3"><span>3 месяца</span></div>
-        <div class="radio-option" data-value="6"><span>6 месяцев</span></div>
-        <div class="radio-option" data-value="12"><span>12 месяцев</span></div>
-      </div>
-    </div>
-    <div class="field">
-      <label>Какой путь роста вам ближе?</label>
-      <div class="radio-group" data-field="growth_intent">
-        <div class="radio-option" data-value="premium"><span>Меньше клиентов, но дороже</span></div>
-        <div class="radio-option" data-value="automation"><span>Больше клиентов за счёт автоматизации</span></div>
-        <div class="radio-option" data-value="team"><span>Построить команду и делегировать</span></div>
-        <div class="radio-option" data-value="products"><span>Добавить новые услуги и продукты</span></div>
-      </div>
-    </div>
-    <div class="field">
-      <label>Насколько интересна технологическая опора — инструменты, автоматизация, партнёрства?</label>
-      <div class="radio-group" data-field="fintablo_interest">
-        <div class="radio-option" data-value="high"><span>Очень — ищу именно это</span></div>
-        <div class="radio-option" data-value="medium"><span>Интересно, хочу разобраться</span></div>
-        <div class="radio-option" data-value="low"><span>Не уверен, что мне это нужно</span></div>
-      </div>
-    </div>
+<!-- Insight C: Траектория -->
+<div class="screen" data-step="17" id="s-insight-c">
+  <div class="q-screen">
+    <div id="insight-c"></div>
     <div class="nav-buttons">
-      <button class="btn btn-secondary" onclick="goTo('3b')">Назад</button>
-      <button class="btn btn-primary" onclick="submitScreen4()">Показать результаты</button>
-    </div>
-  </div>
-
-  <!-- Экран 4b: Инсайт по траектории -->
-  <div class="screen" id="screen-4b">
-    <div class="step-indicator">Результат шага 3</div>
-    <div id="insight-4"></div>
-    <div class="nav-buttons">
-      <button class="btn btn-secondary" onclick="goTo(4)">Назад</button>
+      <button class="btn btn-secondary" onclick="prev()">Назад</button>
       <button class="btn btn-primary" onclick="showResults()">Смотреть сценарии роста</button>
     </div>
   </div>
+</div>
 
-  <!-- Экран 5: Сценарии роста -->
-  <div class="screen" id="screen-5">
-    <div class="screen-header">
-      <h2>Сценарии роста вашей практики</h2>
-      <p>5 сценариев с расчётами на основе ваших данных</p>
-    </div>
+<!-- Results: Сценарии -->
+<div class="screen" data-step="18" id="s-scenarios">
+  <div class="q-screen">
+    <div class="q-title" style="margin-bottom:16px">Сценарии роста вашей практики</div>
     <div id="scenarios-table-wrap">
-      <table class="scenarios-table" id="scenarios-table">
-        <thead>
-          <tr><th>Сценарий</th><th>Доход, тыс/мес</th><th>Клиентов</th><th>Загрузка</th><th>Скорость</th><th>Риск</th></tr>
-        </thead>
-        <tbody id="scenarios-tbody"></tbody>
-      </table>
+      <table class="scenarios-table"><thead><tr><th>Сценарий</th><th>Доход</th><th>Клиентов</th><th>Загрузка</th><th>Скорость</th><th>Риск</th></tr></thead><tbody id="scenarios-tbody"></tbody></table>
     </div>
     <div id="scenario-details"></div>
     <div class="nav-buttons">
-      <button class="btn btn-secondary" onclick="goTo('4b')">Назад</button>
-      <button class="btn btn-primary" onclick="goTo(6)">Карта пути</button>
+      <button class="btn btn-secondary" onclick="prev()">Назад</button>
+      <button class="btn btn-primary" onclick="next()">Карта пути</button>
     </div>
   </div>
+</div>
 
-  <!-- Экран 6: Персональная карта пути -->
-  <div class="screen" id="screen-6">
-    <div class="screen-header">
-      <h2>Ваша персональная карта пути</h2>
-      <p>Шаги, которые дадут наибольший эффект именно для вашей модели</p>
-    </div>
+<!-- Results: Карта пути -->
+<div class="screen" data-step="19" id="s-roadmap">
+  <div class="q-screen">
+    <div class="q-title" style="margin-bottom:16px">Ваша персональная карта пути</div>
     <div id="roadmap-container" class="roadmap"></div>
     <div class="nav-buttons">
-      <button class="btn btn-secondary" onclick="goTo(5)">Назад</button>
-      <button class="btn btn-primary" onclick="goTo(7)">Получить полный план</button>
+      <button class="btn btn-secondary" onclick="prev()">Назад</button>
+      <button class="btn btn-primary" onclick="next()">Получить полный план</button>
     </div>
   </div>
+</div>
 
-  <!-- Экран 7: Конверсионный гейт -->
-  <div class="screen" id="screen-7">
-    <div class="screen-header">
-      <h2>Ваш план роста готов</h2>
-    </div>
+<!-- Gate -->
+<div class="screen" data-step="20" id="s-gate">
+  <div class="q-screen">
+    <div class="q-title" style="margin-bottom:16px">Ваш план роста готов</div>
     <div id="gate-preview">
       <div id="gate-teaser-model" class="insight-block"></div>
       <div id="gate-teaser-constraints"></div>
       <div id="gate-teaser-gap" class="insight-block"></div>
-      <h3 style="margin: 24px 0 12px;">Сценарии роста</h3>
-      <div id="gate-blurred-table" class="blurred">
-        <table class="scenarios-table" id="gate-table">
-          <thead><tr><th>Сценарий</th><th>Доход</th><th>Клиентов</th><th>Загрузка</th><th>Скорость</th></tr></thead>
-          <tbody id="gate-tbody"></tbody>
-        </table>
-      </div>
-      <h3 style="margin: 24px 0 12px;">Карта пути</h3>
+      <h3 style="margin:24px 0 12px">Сценарии роста</h3>
+      <div id="gate-blurred-table" class="blurred"><table class="scenarios-table"><thead><tr><th>Сценарий</th><th>Доход</th><th>Клиентов</th><th>Загрузка</th></tr></thead><tbody id="gate-tbody"></tbody></table></div>
+      <h3 style="margin:24px 0 12px">Карта пути</h3>
       <div id="gate-roadmap-preview"></div>
-      <div id="gate-roadmap-blurred" class="blurred">
-        <div class="roadmap" id="gate-roadmap-rest"></div>
-      </div>
+      <div id="gate-roadmap-blurred" class="blurred"><div class="roadmap" id="gate-roadmap-rest"></div></div>
     </div>
     <div class="gate-overlay" id="gate-overlay">
-      <h3>Откройте полную версию результата</h3>
-      <p>Сравнение сценариев с расчётами, полная карта пути и персональные рекомендации</p>
+      <h3>Откройте полную версию</h3>
+      <p>Сценарии с расчётами, полная карта пути и персональные рекомендации</p>
       <div class="gate-form">
         <input type="text" id="gate-name" placeholder="Ваше имя">
         <input type="text" id="gate-contact" placeholder="Email или Telegram">
-        <button class="btn btn-primary" style="width:100%;" onclick="submitGate()">Получить полный план</button>
+        <button class="btn btn-primary" style="width:100%" onclick="submitGate()">Получить полный план</button>
       </div>
     </div>
-    <div id="full-results" style="display:none;">
+    <div id="full-results" style="display:none">
       <div id="full-scenarios"></div>
       <div id="full-roadmap"></div>
-      <div class="insight-block" style="margin-top:32px; border-left-color: #22c55e;">
-        <h3 style="color: #22c55e;">Следующий шаг</h3>
+      <div class="insight-block" style="margin-top:32px;border-left-color:#22c55e">
+        <h3 style="color:#22c55e">Следующий шаг</h3>
         <p>Хотите разобрать результаты с экспертом и составить конкретный план действий?</p>
-        <a href="#" class="btn btn-primary" style="margin-top: 16px; display: inline-block;">Записаться на разбор</a>
+        <a href="#" class="btn btn-primary" style="margin-top:16px;display:inline-block">Записаться на разбор</a>
       </div>
     </div>
   </div>
+</div>
 
 </div>
 
 <script>
 const D = {};
-const HOURS_MID = { '5-10': 7.5, '10-20': 15, '20-40': 30, '40+': 45 };
-const CAP = 160;
+const screens = document.querySelectorAll('.screen');
+const TOTAL = 17; // steps for progress (excluding start, insights count as steps)
+let curStep = 0;
 
-function goTo(n) {
-  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-  document.getElementById('screen-' + n).classList.add('active');
+function updateProgress() {
+  const pw = document.getElementById('progress-wrap');
+  const pf = document.getElementById('progress-fill');
+  const pl = document.getElementById('progress-label');
+  if (curStep === 0) { pw.style.display = 'none'; return; }
+  pw.style.display = 'block';
+  const pct = Math.min(Math.round((curStep / TOTAL) * 100), 100);
+  pf.style.width = pct + '%';
+  if (pct >= 80) pl.textContent = 'Почти готово';
+  else if (pct >= 50) pl.textContent = 'Хорошее начало';
+  else pl.textContent = '';
+}
+
+function goToStep(step) {
+  curStep = step;
+  screens.forEach(s => {
+    s.classList.toggle('active', parseInt(s.dataset.step) === step);
+  });
+  updateProgress();
   window.scrollTo(0, 0);
 }
 
-document.querySelectorAll('.radio-group').forEach(group => {
-  group.querySelectorAll('.radio-option').forEach(opt => {
+function next() {
+  // Trigger computation at insight boundaries
+  if (curStep === 6) computeInsightA();
+  if (curStep === 12) computeInsightB();
+  if (curStep === 16) computeInsightC();
+  goToStep(curStep + 1);
+}
+
+function prev() { if (curStep > 0) goToStep(curStep - 1); }
+
+// --- Radio auto-advance ---
+document.querySelectorAll('.opts').forEach(group => {
+  group.querySelectorAll('.opt').forEach(opt => {
     opt.addEventListener('click', () => {
-      group.querySelectorAll('.radio-option').forEach(o => o.classList.remove('selected'));
-      opt.classList.add('selected');
+      const field = group.dataset.field;
+      group.querySelectorAll('.opt').forEach(o => o.classList.remove('picked'));
+      opt.classList.add('picked');
+      D[field] = opt.dataset.value;
+      if (opt.dataset.mid) D[field + '_mid'] = parseFloat(opt.dataset.mid);
+
+      // Show micro-reward
+      const rw = document.getElementById('rw-' + field);
+      if (rw && opt.dataset.reward) {
+        rw.textContent = opt.dataset.reward;
+        rw.classList.add('show');
+      }
+
+      // Auto-advance after 800ms
+      setTimeout(next, 800);
     });
   });
 });
-document.querySelectorAll('.multi-select-group').forEach(group => {
-  group.querySelectorAll('.multi-option').forEach(opt => {
-    opt.addEventListener('click', () => opt.classList.toggle('selected'));
+
+// --- Multi-select ---
+document.querySelectorAll('.multi-opts').forEach(group => {
+  const field = group.dataset.field;
+  group.querySelectorAll('.m-opt').forEach(opt => {
+    opt.addEventListener('click', () => {
+      opt.classList.toggle('picked');
+      D[field] = Array.from(group.querySelectorAll('.picked')).map(e => e.dataset.value);
+      const btn = document.getElementById('btn-' + field);
+      if (btn) btn.classList.toggle('ready', D[field].length > 0);
+    });
   });
 });
 
-function getRadio(field) {
-  const el = document.querySelector(`[data-field="${field}"] .selected`);
-  return el ? el.dataset.value : null;
-}
-function getMulti(field) {
-  return Array.from(document.querySelectorAll(`[data-field="${field}"] .selected`)).map(e => e.dataset.value);
-}
-function getNum(id) { return parseFloat(document.getElementById(id).value) || 0; }
 function fmt(n) { return Math.round(n).toLocaleString('ru-RU'); }
 
-// --- Screen 2 ---
-function submitScreen2() {
-  D.clients = getNum('clients_count');
-  D.avgCheck = getNum('avg_check');
-  D.hoursKey = getRadio('hours_per_client');
-  D.revenueModel = getRadio('revenue_model');
-  D.leadSources = getMulti('lead_source');
-  D.tools = getMulti('tools');
-
-  if (!D.clients || !D.avgCheck || !D.hoursKey || !D.revenueModel) { alert('Заполните все обязательные поля'); return; }
-
-  D.H = HOURS_MID[D.hoursKey];
-  D.totalHours = D.clients * D.H;
-  D.monthlyIncome = D.clients * D.avgCheck * 1000;
+// --- Insight A: Model ---
+function computeInsightA() {
+  const C = D.clients_mid || 6;
+  const A = (D.avg_check_mid || 30) * 1000;
+  const H = D.hours_mid || 15;
+  D.C = C; D.A = A; D.H = H;
+  D.totalHours = C * H;
+  D.monthlyIncome = C * A;
   D.hourlyRate = D.totalHours > 0 ? D.monthlyIncome / D.totalHours : 0;
-  D.capacityUsed = D.totalHours / CAP * 100;
+  D.capacityUsed = D.totalHours / 160 * 100;
 
   let scale;
-  if (D.clients <= 3) scale = 'Solo-практика';
-  else if (D.clients <= 7) scale = 'Микропрактика';
-  else if (D.clients <= 15) scale = 'Практика';
+  if (C <= 3) scale = 'Solo-практика';
+  else if (C <= 7) scale = 'Микропрактика';
+  else if (C <= 15) scale = 'Практика';
   else scale = 'Агентство';
 
-  const rl = { fixed: 'фиксированная абонентка', hourly: 'почасовая оплата', mix: 'гибридная модель' };
+  const rl = {fixed:'фиксированная абонентка',hourly:'почасовая оплата',mix:'гибридная модель'};
   D.modelLabel = scale;
-  D.revenueLabel = rl[D.revenueModel];
+  D.revenueLabel = rl[D.revenue] || 'гибридная модель';
 
   const texts = {
-    'Solo-практика': `Вы работаете с небольшим числом клиентов (${D.clients}). Ваша опора — глубина работы и лояльность клиентов. Потолок — ваше время: при ${D.H}ч на клиента вы используете ${Math.round(D.capacityUsed)}% рабочей ёмкости.`,
-    'Микропрактика': `Практика с ${D.clients} клиентами на ${D.revenueLabel}. Опора — стабильный поток дохода. Потолок — операционная нагрузка: ${Math.round(D.totalHours)}ч/мес ${D.capacityUsed > 80 ? 'близко к пределу' : 'оставляет пространство для роста'}.`,
-    'Практика': `Развитая практика с ${D.clients} клиентами. Опора — масштаб и опыт. Потолок — ${Math.round(D.totalHours)}ч/мес нагрузки ${D.capacityUsed > 90 ? 'на пределе' : 'требует системного управления'}.`,
-    'Агентство': `Агентская модель с ${D.clients} клиентами. На ${D.revenueLabel} это серьёзный объём. Без команды и автоматизации рост ограничен физически.`
+    'Solo-практика': `Вы работаете с небольшим числом клиентов. Опора — глубина работы и лояльность. Потолок — ваше время: ${Math.round(D.capacityUsed)}% ёмкости занято.`,
+    'Микропрактика': `Практика на ${D.revenueLabel}. Опора — стабильный поток дохода. Нагрузка ${Math.round(D.totalHours)}ч/мес ${D.capacityUsed > 80 ? 'близко к пределу' : 'оставляет пространство для роста'}.`,
+    'Практика': `Развитая практика. Опора — масштаб и опыт. ${Math.round(D.totalHours)}ч/мес нагрузки ${D.capacityUsed > 90 ? 'на пределе' : 'требует системного управления'}.`,
+    'Агентство': `Агентский масштаб на ${D.revenueLabel}. Без команды и автоматизации рост ограничен физически.`
   };
 
-  document.getElementById('insight-2').innerHTML = `
+  document.getElementById('insight-a').innerHTML = `
     <div class="insight-block">
-      <h3>${scale} · ${rl[D.revenueModel]}</h3>
+      <h3>${scale} · ${D.revenueLabel}</h3>
       <div class="metric-cards">
         <div class="metric-card"><div class="value">${fmt(D.monthlyIncome)} &#8381;</div><div class="label">доход / мес</div></div>
         <div class="metric-card"><div class="value">${fmt(D.hourlyRate)} &#8381;</div><div class="label">стоимость часа</div></div>
@@ -485,96 +547,70 @@ function submitScreen2() {
       </div>
       <p>${texts[scale]}</p>
     </div>`;
-
-  goTo('2b');
 }
 
-// --- Screen 3 ---
-function submitScreen3() {
-  D.leads = getRadio('bottleneck_leads');
-  D.capacity = getRadio('bottleneck_capacity');
-  D.product = getRadio('bottleneck_product');
-  D.delegation = getRadio('bottleneck_delegation');
-  D.pricing = getRadio('bottleneck_pricing');
-
-  if (!D.leads || !D.capacity || !D.product || !D.delegation || !D.pricing) { alert('Ответьте на все вопросы'); return; }
-
+// --- Insight B: Constraints ---
+function computeInsightB() {
   const SC = {
-    leads: { weekly: 1, monthly: 2, quarterly: 3, none: 3 },
-    capacity: { yes: 1, tight: 2, no: 3, swap: 3 },
-    product: { packages: 1, adapt: 2, individual: 3 },
-    delegation: { team: 1, partial: 2, solo: 3 },
-    pricing: { raised: 1, afraid: 2, no: 3 }
+    leads:{weekly:1,monthly:2,quarterly:3,none:3},
+    capacity:{yes:1,tight:2,no:3,swap:3},
+    product:{packages:1,adapt:2,individual:3},
+    delegation:{team:1,partial:2,solo:3},
+    pricing:{raised:1,afraid:2,no:3}
   };
-
   D.constraints = {
-    leads: SC.leads[D.leads], capacity: SC.capacity[D.capacity],
-    product: SC.product[D.product], delegation: SC.delegation[D.delegation],
-    pricing: SC.pricing[D.pricing]
+    leads:SC.leads[D.leads]||2, capacity:SC.capacity[D.capacity]||2,
+    product:SC.product[D.product]||2, delegation:SC.delegation[D.delegation]||2,
+    pricing:SC.pricing[D.pricing]||2
   };
 
-  const labels = { leads: 'Поток клиентов', capacity: 'Ёмкость', product: 'Упаковка услуг', delegation: 'Масштабируемость', pricing: 'Экономика' };
-  const stLbl = { 1: 'В порядке', 2: 'Напряжение', 3: 'Критично' };
-  const bCls = { 1: 'bar-ok', 2: 'bar-warn', 3: 'bar-crit' };
+  const labels={leads:'Поток клиентов',capacity:'Ёмкость',product:'Упаковка услуг',delegation:'Масштабируемость',pricing:'Экономика'};
+  const stLbl={1:'В порядке',2:'Напряжение',3:'Критично'};
+  const bCls={1:'bar-ok',2:'bar-warn',3:'bar-crit'};
+  const order=['leads','capacity','product','delegation','pricing'];
+  let primary=order[0];
+  for(const k of order){if(D.constraints[k]>D.constraints[primary])primary=k;}
+  D.primaryConstraint=primary;
 
-  const order = ['leads', 'capacity', 'product', 'delegation', 'pricing'];
-  let primary = order[0];
-  for (const k of order) { if (D.constraints[k] > D.constraints[primary]) primary = k; }
-  D.primaryConstraint = primary;
-
-  const cTexts = {
-    leads: 'Главное ограничение — поток клиентов. При текущей частоте входящих ваша практика растёт медленнее, чем могла бы. Даже если вы готовы взять больше — некого брать.',
-    capacity: `Главное ограничение — загрузка. Вы работаете на ${Math.round(D.capacityUsed)}% мощности. Новый клиент не влезет без потери качества или выгорания.`,
-    product: 'Главное ограничение — упаковка. Без чётких пакетов каждый новый клиент — это переговоры с нуля. Это тормозит и продажи, и масштабирование.',
-    delegation: 'Главное ограничение — делегирование. Пока всё на вас, потолок = ваше время. Чтобы расти, нужно отдать часть работы.',
-    pricing: `Главное ограничение — цена. Стоимость вашего часа (${fmt(D.hourlyRate)} руб) может быть ниже рыночной для вашего уровня экспертизы.`
+  const cTexts={
+    leads:'Главное ограничение — поток клиентов. Даже если готовы взять больше — некого брать.',
+    capacity:`Главное ограничение — загрузка (${Math.round(D.capacityUsed)}%). Новый клиент не влезет без потери качества.`,
+    product:'Главное ограничение — упаковка. Без чётких пакетов каждая продажа — переговоры с нуля.',
+    delegation:'Главное ограничение — делегирование. Пока всё на вас, потолок = ваше время.',
+    pricing:`Главное ограничение — цена. Стоимость часа (${fmt(D.hourlyRate)} руб) ниже рыночной для вашего уровня.`
   };
 
-  let bars = '';
-  for (const k of order) {
-    const s = D.constraints[k];
-    bars += `<div class="constraint-bar">
-      <div class="bar-label"><span class="name">${labels[k]}</span><span>${stLbl[s]}</span></div>
-      <div class="bar-track"><div class="bar-fill ${bCls[s]}" style="width:${s * 33}%"></div></div>
-    </div>`;
+  let bars='';
+  for(const k of order){
+    const s=D.constraints[k];
+    bars+=`<div class="constraint-bar"><div class="bar-label"><span class="name">${labels[k]}</span><span>${stLbl[s]}</span></div><div class="bar-track"><div class="bar-fill ${bCls[s]}" style="width:${s*33}%"></div></div></div>`;
   }
 
-  document.getElementById('insight-3').innerHTML = `
-    <div class="insight-block"><h3>Карта ограничений</h3>${bars}<p style="margin-top:16px;">${cTexts[primary]}</p></div>`;
-
-  goTo('3b');
+  document.getElementById('insight-b').innerHTML=`<div class="insight-block"><h3>Карта ограничений</h3>${bars}<p style="margin-top:16px">${cTexts[primary]}</p></div>`;
 }
 
-// --- Screen 4 ---
-function submitScreen4() {
-  D.targetIncome = getNum('target_income');
-  D.timeline = getRadio('target_timeline');
-  D.growthIntent = getRadio('growth_intent');
-  D.fintabloInterest = getRadio('fintablo_interest');
-
-  if (!D.targetIncome || !D.timeline || !D.growthIntent || !D.fintabloInterest) { alert('Заполните все поля'); return; }
-
-  D.targetRub = D.targetIncome * 1000;
-  D.incomeGap = D.targetRub - D.monthlyIncome;
+// --- Insight C: Trajectory ---
+function computeInsightC() {
+  D.targetRub = (D.target_mid || 300) * 1000;
+  D.timelineMonths = parseInt(D.timeline) || 6;
   D.gapMultiplier = D.monthlyIncome > 0 ? D.targetRub / D.monthlyIncome : 99;
-  D.timelineMonths = parseInt(D.timeline);
 
   let t;
-  if (D.gapMultiplier <= 1.3) t = 'optimization';
-  else if (D.gapMultiplier <= 2.0) t = 'growth';
-  else if (D.gapMultiplier <= 3.0) t = 'scaling';
-  else t = 'transformation';
-  D.trajectory = t;
+  if(D.gapMultiplier<=1.3)t='optimization';
+  else if(D.gapMultiplier<=2.0)t='growth';
+  else if(D.gapMultiplier<=3.0)t='scaling';
+  else t='transformation';
+  D.trajectory=t;
 
-  const tTexts = {
-    optimization: `Ваша цель (${D.targetIncome}к) реалистична в рамках текущей модели. Разрыв ${Math.round((D.gapMultiplier - 1) * 100)}% — это оптимизация: поднять чек, упаковать услуги, подрезать неэффективных клиентов.`,
-    growth: `Рост в ${D.gapMultiplier.toFixed(1)}x за ${D.timelineMonths} мес требует не просто больше работать, а изменить подход. Нужны новые клиенты, другой чек или делегирование части работы.`,
-    scaling: `Цель x${D.gapMultiplier.toFixed(1)} — это смена модели. Текущая практика не вмещает такой рост без команды, автоматизации и системного привлечения клиентов.`,
-    transformation: `Разрыв x${D.gapMultiplier.toFixed(1)} — это построение нового бизнеса. Текущая модель для этого не подходит — нужна принципиально другая архитектура.`
+  const tTexts={
+    optimization:`Цель реалистична в рамках текущей модели. Разрыв ${Math.round((D.gapMultiplier-1)*100)}% — оптимизация: поднять чек, упаковать, подрезать неэффективных.`,
+    growth:`Рост x${D.gapMultiplier.toFixed(1)} требует изменить подход. Нужны новые клиенты, другой чек или делегирование.`,
+    scaling:`Цель x${D.gapMultiplier.toFixed(1)} — смена модели. Нужны команда, автоматизация и системное привлечение.`,
+    transformation:`Разрыв x${D.gapMultiplier.toFixed(1)} — построение нового бизнеса. Нужна принципиально другая архитектура.`
   };
-  const tLbl = { optimization: 'Оптимизация', growth: 'Рост', scaling: 'Масштабирование', transformation: 'Трансформация' };
+  const tLbl={optimization:'Оптимизация',growth:'Рост',scaling:'Масштабирование',transformation:'Трансформация'};
 
-  document.getElementById('insight-4').innerHTML = `
+  document.getElementById('insight-c').innerHTML=`
     <div class="insight-block">
       <h3>Траектория: ${tLbl[t]}</h3>
       <div class="metric-cards">
@@ -584,186 +620,129 @@ function submitScreen4() {
       </div>
       <p>${tTexts[t]}</p>
     </div>`;
-
-  goTo('4b');
 }
 
-function showResults() {
-  buildScenarios();
-  buildRoadmap();
-  goTo(5);
-}
+// --- Show results ---
+function showResults(){buildScenarios();buildRoadmap();next();}
 
-// --- Scenarios ---
-function buildScenarios() {
-  const C = D.clients, A = D.avgCheck * 1000, H = D.H, T = D.targetRub;
+function buildScenarios(){
+  const C=D.C,A=D.A,H=D.H,T=D.targetRub,CAP=160;
+  const s1check=C>0?T/C:0;const s1pct=A>0?(s1check-A)/A*100:0;
+  const s1risk=s1pct<=50?'low':(s1pct<=100?'mid':'high');
+  const s1speed=s1pct<=30?2:(s1pct<=60?4:8);
 
-  const s1check = C > 0 ? T / C : 0;
-  const s1pct = A > 0 ? (s1check - A) / A * 100 : 0;
-  const s1cap = D.capacityUsed;
-  const s1risk = s1pct <= 50 ? 'low' : (s1pct <= 100 ? 'mid' : 'high');
-  const s1speed = s1pct <= 30 ? 2 : (s1pct <= 60 ? 4 : 8);
+  const s2H=H*.7;const s2max=Math.floor(CAP*.85/s2H);
+  const s2cl=Math.min(Math.ceil(T/A),s2max);const s2inc=s2cl*A;
+  const s2cap=s2cl*s2H/CAP*100;const s2risk=s2cap<=80?'low':(s2cap<=100?'mid':'high');
+  const s2speed=(s2cl-C)<=3?3:((s2cl-C)<=6?6:10);
 
-  const s2H = H * 0.7;
-  const s2max = Math.floor(CAP * 0.85 / s2H);
-  const s2clients = Math.min(Math.ceil(T / A), s2max);
-  const s2income = s2clients * A;
-  const s2cap = s2clients * s2H / CAP * 100;
-  const s2risk = s2cap <= 80 ? 'low' : (s2cap <= 100 ? 'mid' : 'high');
-  const s2speed = (s2clients - C) <= 3 ? 3 : ((s2clients - C) <= 6 ? 6 : 10);
+  const s3ch=A*1.2;const s3_6m=Math.min(C+10,Math.floor(CAP*.85/H));
+  const s3inc=s3_6m*s3ch;const s3cap=s3_6m*H/CAP*100;
+  const s3risk=s3cap<=80?'low':(s3cap<=100?'mid':'high');
 
-  const s3check = A * 1.2;
-  const s3_6m = Math.min(C + 2 * 6 - Math.floor(6 / 3), Math.floor(CAP * 0.85 / H));
-  const s3income6 = s3_6m * s3check;
-  const s3cap6 = s3_6m * H / CAP * 100;
-  const s3risk = s3cap6 <= 80 ? 'low' : (s3cap6 <= 100 ? 'mid' : 'high');
+  const s4H=H*.8;const s4ch=A*1.15;const s4max=Math.floor(CAP*.85/s4H);
+  const s4cl=Math.min(Math.ceil(T/s4ch),s4max);const s4inc=s4cl*s4ch;
+  const s4cap=s4cl*s4H/CAP*100;const s4risk=s4cap<=80?'low':(s4cap<=100?'mid':'high');
+  const s4speed=2+((s4cl-C)<=3?3:6);
 
-  const s4H = H * 0.8;
-  const s4check = A * 1.15;
-  const s4max = Math.floor(CAP * 0.85 / s4H);
-  const s4clients = Math.min(Math.ceil(T / s4check), s4max);
-  const s4income = s4clients * s4check;
-  const s4cap = s4clients * s4H / CAP * 100;
-  const s4risk = s4cap <= 80 ? 'low' : (s4cap <= 100 ? 'mid' : 'high');
-  const s4speed = 2 + ((s4clients - C) <= 3 ? 3 : 6);
+  const s5H=H*.6;const s5ch=A*1.25;const s5p=1000;
+  const s5max=Math.floor(CAP*.85/s5H);const s5_6m=Math.min(C+6,s5max);
+  const s5inc=s5_6m*s5ch+s5_6m*s5p;const s5cap=s5_6m*s5H/CAP*100;
+  const s5risk=s5cap<=80?'low':(s5cap<=100?'mid':'high');
 
-  const s5H = H * 0.6;
-  const s5check = A * 1.25;
-  const s5partner = 1000;
-  const s5max = Math.floor(CAP * 0.85 / s5H);
-  const s5_6m = Math.min(C + 6, s5max);
-  const s5income6 = s5_6m * s5check + s5_6m * s5partner;
-  const s5cap6 = s5_6m * s5H / CAP * 100;
-  const s5risk = s5cap6 <= 80 ? 'low' : (s5cap6 <= 100 ? 'mid' : 'high');
+  const rL={low:'Низкий',mid:'Средний',high:'Высокий'};
+  const rC={low:'risk-low',mid:'risk-mid',high:'risk-high'};
 
-  const rLbl = { low: 'Низкий', mid: 'Средний', high: 'Высокий' };
-  const rCls = { low: 'risk-low', mid: 'risk-mid', high: 'risk-high' };
-
-  D.scenarios = [
-    { name: 'Поднять чек', income: T / 1000, clients: C, cap: s1cap, speed: `~${s1speed} мес`, risk: s1risk },
-    { name: 'Больше клиентов, снизить нагрузку', income: s2income / 1000, clients: s2clients, cap: s2cap, speed: `~${s2speed} мес`, risk: s2risk },
-    { name: 'Упаковка + маркетинг', income: s3income6 / 1000, clients: s3_6m, cap: s3cap6, speed: '~6 мес', risk: s3risk },
-    { name: 'Свои инструменты', income: s4income / 1000, clients: s4clients, cap: s4cap, speed: `~${s4speed} мес`, risk: s4risk },
-    { name: 'Финтабло + партнёрство', income: s5income6 / 1000, clients: s5_6m, cap: s5cap6, speed: '~4 мес', risk: s5risk, highlight: true },
+  D.scenarios=[
+    {name:'Поднять чек',income:T/1000,clients:C,cap:D.capacityUsed,speed:`~${s1speed} мес`,risk:s1risk},
+    {name:'Больше клиентов, снизить нагрузку',income:s2inc/1000,clients:s2cl,cap:s2cap,speed:`~${s2speed} мес`,risk:s2risk},
+    {name:'Упаковка + маркетинг',income:s3inc/1000,clients:s3_6m,cap:s3cap,speed:'~6 мес',risk:s3risk},
+    {name:'Свои инструменты',income:s4inc/1000,clients:s4cl,cap:s4cap,speed:`~${s4speed} мес`,risk:s4risk},
+    {name:'Финтабло + партнёрство',income:s5inc/1000,clients:s5_6m,cap:s5cap,speed:'~4 мес',risk:s5risk,highlight:true},
   ];
 
-  let tbody = '';
-  D.scenarios.forEach(s => {
-    const cls = s.highlight ? ' class="highlight"' : '';
-    tbody += `<tr${cls}><td>${s.name}</td><td>${fmt(s.income * 1000)} &#8381;</td><td>${s.clients}</td><td>${Math.round(s.cap)}%</td><td>${s.speed}</td><td><span class="${rCls[s.risk]}">${rLbl[s.risk]}</span></td></tr>`;
+  let tb='';
+  D.scenarios.forEach(s=>{
+    const cls=s.highlight?' class="highlight"':'';
+    tb+=`<tr${cls}><td>${s.name}</td><td>${fmt(s.income*1000)} &#8381;</td><td>${s.clients}</td><td>${Math.round(s.cap)}%</td><td>${s.speed}</td><td><span class="${rC[s.risk]}">${rL[s.risk]}</span></td></tr>`;
   });
-  document.getElementById('scenarios-tbody').innerHTML = tbody;
+  document.getElementById('scenarios-tbody').innerHTML=tb;
 
-  document.getElementById('scenario-details').innerHTML = `
-    <div class="insight-block" style="border-left-color: #22c55e; margin-top: 24px;">
-      <h3 style="color: #22c55e;">Сценарий с Финтабло — подробнее</h3>
+  document.getElementById('scenario-details').innerHTML=`
+    <div class="insight-block" style="border-left-color:#22c55e;margin-top:24px">
+      <h3 style="color:#22c55e">Сценарий с Финтабло</h3>
       <div class="metric-cards">
         <div class="metric-card"><div class="value">${fmt(s5H)}ч</div><div class="label">часов/клиент (-40%)</div></div>
-        <div class="metric-card"><div class="value">${fmt(s5check)} &#8381;</div><div class="label">чек (+25%)</div></div>
-        <div class="metric-card"><div class="value">+${fmt(s5partner)} &#8381;</div><div class="label">партнёрский доход/клиент</div></div>
+        <div class="metric-card"><div class="value">${fmt(s5ch)} &#8381;</div><div class="label">чек (+25%)</div></div>
+        <div class="metric-card"><div class="value">+${fmt(s5p)} &#8381;</div><div class="label">партнёрский доход</div></div>
       </div>
-      <p>Автоматизация отчётности снижает нагрузку на 40%. Ценность для клиента растёт — чек можно поднять на 25%. Партнёрский доход ${fmt(s5partner)} руб/мес за каждого клиента.</p>
+      <p>Автоматизация снижает нагрузку на 40%, чек растёт на 25%, партнёрский доход ${fmt(s5p)} руб/мес за клиента.</p>
     </div>`;
 }
 
-// --- Roadmap ---
-function buildRoadmap() {
-  const steps = [];
-  if (D.hourlyRate < 1500 || D.capacityUsed > 90)
-    steps.push({ title: 'Аудит клиентской базы', desc: 'Оценить рентабельность каждого клиента. Отказаться от невыгодных, освободить ресурс для роста.' });
-  if (D.product === 'adapt' || D.product === 'individual')
-    steps.push({ title: 'Упаковать услуги в пакеты', desc: 'Создать 2–3 пакета с фиксированным составом и ценой. Это ускоряет продажу и снижает время на переговоры.' });
-  if (D.pricing === 'afraid' || D.pricing === 'no')
-    steps.push({ title: 'Пересмотреть цены', desc: 'Поднять чек на 20–30% для текущих и новых клиентов. Ваша экспертиза стоит дороже, чем вы думаете.' });
-  if (D.hoursKey === '20-40' || D.hoursKey === '40+' || !D.tools.includes('fintablo'))
-    steps.push({ title: 'Автоматизировать отчётность', desc: 'Подключить инструмент автоматизации, сократить часы на клиента на 30–40%.' });
-  if (D.leads === 'quarterly' || D.leads === 'none')
-    steps.push({ title: 'Наладить поток клиентов', desc: 'Запустить контент-маркетинг или подключиться к партнёрской программе для стабильного притока лидов.' });
-  if (D.delegation === 'solo' && D.capacityUsed > 70)
-    steps.push({ title: 'Начать делегировать', desc: 'Нанять ассистента для рутинных задач. Без делегирования рост ограничен вашим временем.' });
-  steps.push({ title: 'Подключиться к партнёрской программе Финтабло', desc: 'Получить технологию, экспертную среду, дополнительный канал клиентов и партнёрский доход.' });
-
-  D.roadmapSteps = steps;
-  let html = '';
-  steps.forEach((s, i) => {
-    html += `<div class="roadmap-step"><div class="step-dot">${i + 1}</div><div class="step-title">${s.title}</div><div class="step-desc">${s.desc}</div></div>`;
-  });
-  document.getElementById('roadmap-container').innerHTML = html;
+function buildRoadmap(){
+  const steps=[];
+  if(D.hourlyRate<1500||D.capacityUsed>90) steps.push({title:'Аудит клиентской базы',desc:'Оценить рентабельность каждого клиента. Отказаться от невыгодных.'});
+  if(D.product==='adapt'||D.product==='individual') steps.push({title:'Упаковать услуги в пакеты',desc:'Создать 2–3 пакета с фиксированным составом и ценой.'});
+  if(D.pricing==='afraid'||D.pricing==='no') steps.push({title:'Пересмотреть цены',desc:'Поднять чек на 20–30%. Ваша экспертиза стоит дороже.'});
+  if(D.hours==='20-40'||D.hours==='40+'||!(D.tools||[]).includes('fintablo')) steps.push({title:'Автоматизировать отчётность',desc:'Сократить часы на клиента на 30–40%.'});
+  if(D.leads==='quarterly'||D.leads==='none') steps.push({title:'Наладить поток клиентов',desc:'Контент-маркетинг или партнёрская программа для стабильного притока.'});
+  if(D.delegation==='solo'&&D.capacityUsed>70) steps.push({title:'Начать делегировать',desc:'Нанять ассистента для рутинных задач.'});
+  steps.push({title:'Партнёрская программа Финтабло',desc:'Технология, экспертная среда, доп. канал клиентов и партнёрский доход.'});
+  D.roadmapSteps=steps;
+  let h='';
+  steps.forEach((s,i)=>{h+=`<div class="roadmap-step"><div class="step-dot">${i+1}</div><div class="step-title">${s.title}</div><div class="step-desc">${s.desc}</div></div>`;});
+  document.getElementById('roadmap-container').innerHTML=h;
 }
 
 // --- Gate ---
-function buildGate() {
-  document.getElementById('gate-teaser-model').innerHTML = `
-    <h3>${D.modelLabel} · ${D.revenueLabel}</h3>
-    <div class="metric-cards">
-      <div class="metric-card"><div class="value">${fmt(D.monthlyIncome)} &#8381;</div><div class="label">доход / мес</div></div>
-      <div class="metric-card"><div class="value">${Math.round(D.capacityUsed)}%</div><div class="label">загрузка</div></div>
-    </div>`;
+function buildGate(){
+  document.getElementById('gate-teaser-model').innerHTML=`<h3>${D.modelLabel} · ${D.revenueLabel}</h3><div class="metric-cards"><div class="metric-card"><div class="value">${fmt(D.monthlyIncome)} &#8381;</div><div class="label">доход/мес</div></div><div class="metric-card"><div class="value">${Math.round(D.capacityUsed)}%</div><div class="label">загрузка</div></div></div>`;
 
-  const lbl = { leads: 'Поток клиентов', capacity: 'Ёмкость', product: 'Упаковка', delegation: 'Масштабируемость', pricing: 'Экономика' };
-  const bC = { 1: 'bar-ok', 2: 'bar-warn', 3: 'bar-crit' };
-  let bars = '';
-  for (const k of ['leads', 'capacity', 'product', 'delegation', 'pricing']) {
-    const s = D.constraints[k];
-    bars += `<div class="constraint-bar"><div class="bar-label"><span class="name">${lbl[k]}</span></div><div class="bar-track"><div class="bar-fill ${bC[s]}" style="width:${s * 33}%"></div></div></div>`;
+  const lbl={leads:'Поток',capacity:'Ёмкость',product:'Упаковка',delegation:'Масштаб.',pricing:'Экономика'};
+  const bC={1:'bar-ok',2:'bar-warn',3:'bar-crit'};
+  let bars='';
+  for(const k of ['leads','capacity','product','delegation','pricing']){const s=D.constraints[k];bars+=`<div class="constraint-bar"><div class="bar-label"><span class="name">${lbl[k]}</span></div><div class="bar-track"><div class="bar-fill ${bC[s]}" style="width:${s*33}%"></div></div></div>`;}
+  document.getElementById('gate-teaser-constraints').innerHTML=bars;
+
+  document.getElementById('gate-teaser-gap').innerHTML=`<h3>Разрыв: x${D.gapMultiplier.toFixed(1)}</h3><p>${fmt(D.monthlyIncome)} &#8381; → ${fmt(D.targetRub)} &#8381;</p>`;
+
+  let tb='';D.scenarios.forEach(s=>{tb+=`<tr><td>${s.name}</td><td>${fmt(s.income*1000)} &#8381;</td><td>${s.clients}</td><td>${Math.round(s.cap)}%</td></tr>`;});
+  document.getElementById('gate-tbody').innerHTML=tb;
+
+  if(D.roadmapSteps.length>0){
+    document.getElementById('gate-roadmap-preview').innerHTML=`<div class="roadmap"><div class="roadmap-step"><div class="step-dot">1</div><div class="step-title">${D.roadmapSteps[0].title}</div><div class="step-desc">${D.roadmapSteps[0].desc}</div></div></div>`;
   }
-  document.getElementById('gate-teaser-constraints').innerHTML = bars;
-
-  document.getElementById('gate-teaser-gap').innerHTML = `
-    <h3>Разрыв: x${D.gapMultiplier.toFixed(1)}</h3>
-    <p>${fmt(D.monthlyIncome)} &#8381; сейчас → ${fmt(D.targetRub)} &#8381; цель</p>`;
-
-  let tbody = '';
-  D.scenarios.forEach(s => {
-    tbody += `<tr><td>${s.name}</td><td>${fmt(s.income * 1000)} &#8381;</td><td>${s.clients}</td><td>${Math.round(s.cap)}%</td><td>${s.speed}</td></tr>`;
-  });
-  document.getElementById('gate-tbody').innerHTML = tbody;
-
-  if (D.roadmapSteps.length > 0) {
-    document.getElementById('gate-roadmap-preview').innerHTML = `
-      <div class="roadmap"><div class="roadmap-step"><div class="step-dot">1</div><div class="step-title">${D.roadmapSteps[0].title}</div><div class="step-desc">${D.roadmapSteps[0].desc}</div></div></div>`;
-  }
-  let rest = '';
-  D.roadmapSteps.slice(1).forEach((s, i) => {
-    rest += `<div class="roadmap-step"><div class="step-dot">${i + 2}</div><div class="step-title">${s.title}</div><div class="step-desc">${s.desc}</div></div>`;
-  });
-  document.getElementById('gate-roadmap-rest').innerHTML = rest;
+  let rest='';D.roadmapSteps.slice(1).forEach((s,i)=>{rest+=`<div class="roadmap-step"><div class="step-dot">${i+2}</div><div class="step-title">${s.title}</div><div class="step-desc">${s.desc}</div></div>`;});
+  document.getElementById('gate-roadmap-rest').innerHTML=rest;
 }
 
-const _goTo = goTo;
-goTo = function(n) { if (n === 7) buildGate(); _goTo(n); };
+// Intercept gate screen
+const _next=next;
+next=function(){
+  if(curStep===19) buildGate();
+  _next();
+};
 
-function submitGate() {
-  const name = document.getElementById('gate-name').value.trim();
-  const contact = document.getElementById('gate-contact').value.trim();
-  if (!name || !contact) { alert('Укажите имя и контакт'); return; }
+function submitGate(){
+  const name=document.getElementById('gate-name').value.trim();
+  const contact=document.getElementById('gate-contact').value.trim();
+  if(!name||!contact){alert('Укажите имя и контакт');return;}
 
   document.getElementById('gate-blurred-table').classList.remove('blurred');
   document.getElementById('gate-roadmap-blurred').classList.remove('blurred');
-  document.getElementById('gate-overlay').style.display = 'none';
+  document.getElementById('gate-overlay').style.display='none';
+  document.getElementById('full-results').style.display='block';
 
-  const fullEl = document.getElementById('full-results');
-  fullEl.style.display = 'block';
+  let tb='';D.scenarios.forEach(s=>{const cls=s.highlight?' class="highlight"':'';tb+=`<tr${cls}><td>${s.name}</td><td>${fmt(s.income*1000)} &#8381;</td><td>${s.clients}</td><td>${Math.round(s.cap)}%</td><td>${s.speed}</td></tr>`;});
+  document.getElementById('full-scenarios').innerHTML=`<h3 style="margin-bottom:12px">Все сценарии</h3><table class="scenarios-table"><thead><tr><th>Сценарий</th><th>Доход</th><th>Клиентов</th><th>Загрузка</th><th>Скорость</th></tr></thead><tbody>${tb}</tbody></table><div class="insight-block" style="border-left-color:#22c55e;margin-top:16px"><h3 style="color:#22c55e">Рекомендуемый: Финтабло + партнёрство</h3><p>Автоматизация -40% нагрузки, чек +25%, партнёрский доход +1 000 руб/мес за клиента.</p></div>`;
 
-  let tbody = '';
-  D.scenarios.forEach(s => {
-    const cls = s.highlight ? ' class="highlight"' : '';
-    tbody += `<tr${cls}><td>${s.name}</td><td>${fmt(s.income * 1000)} &#8381;</td><td>${s.clients}</td><td>${Math.round(s.cap)}%</td><td>${s.speed}</td></tr>`;
-  });
-  document.getElementById('full-scenarios').innerHTML = `
-    <h3 style="margin-bottom:12px;">Все сценарии роста</h3>
-    <table class="scenarios-table"><thead><tr><th>Сценарий</th><th>Доход</th><th>Клиентов</th><th>Загрузка</th><th>Скорость</th></tr></thead><tbody>${tbody}</tbody></table>
-    <div class="insight-block" style="border-left-color: #22c55e; margin-top: 16px;">
-      <h3 style="color: #22c55e;">Рекомендуемый: Финтабло + партнёрство</h3>
-      <p>Автоматизация снижает нагрузку на 40%, чек растёт на 25%, партнёрский доход +1 000 руб/мес за клиента. Самый быстрый путь к ${fmt(D.targetRub)} руб/мес.</p>
-    </div>`;
-
-  let road = '';
-  D.roadmapSteps.forEach((s, i) => {
-    road += `<div class="roadmap-step"><div class="step-dot">${i + 1}</div><div class="step-title">${s.title}</div><div class="step-desc">${s.desc}</div></div>`;
-  });
-  document.getElementById('full-roadmap').innerHTML = `<h3 style="margin:24px 0 12px;">Полная карта пути</h3><div class="roadmap">${road}</div>`;
+  let road='';D.roadmapSteps.forEach((s,i)=>{road+=`<div class="roadmap-step"><div class="step-dot">${i+1}</div><div class="step-title">${s.title}</div><div class="step-desc">${s.desc}</div></div>`;});
+  document.getElementById('full-roadmap').innerHTML=`<h3 style="margin:24px 0 12px">Полная карта пути</h3><div class="roadmap">${road}</div>`;
 }
+
+// Zeigarnik: warn on close
+window.addEventListener('beforeunload',e=>{if(curStep>1){e.preventDefault();e.returnValue='';}});
 </script>
 </body>
 </html>
